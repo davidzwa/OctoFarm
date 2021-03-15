@@ -33,7 +33,7 @@ const { FileClean } = fileClean;
 const { getSorting, getFilter } = require("../lib/sorting.js");
 
 const version = process.env.OCTOFARM_VERSION;
-console.log(`Version: ${version}`);
+console.log(`Version: ${version} (server started)`);
 
 // Welcome Page
 async function welcome() {
