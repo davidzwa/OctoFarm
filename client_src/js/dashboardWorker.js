@@ -1,21 +1,14 @@
-import "@babel/polyfill";
 async function asyncParse(str) {
   try {
-    const info = await parse(str);
+    const info = parse(str);
     return info;
   } catch (e) {
     return false;
   }
 }
 
-const source = new EventSource("/printersInfo/get/");
+const source = new EventSource("/dashboardInfo/get/");
 
-// source.addEventListener("ping", function(event) {
-//     if (e.data != null) {
-//         let res = asyncParse(e.data)
-//         postMessage(res);
-//     }
-// });
 source.onmessage = async function (e) {
   if (e.data != null) {
     const res = await asyncParse(e.data);
@@ -28,6 +21,7 @@ source.onerror = function () {
 source.onclose = function () {
   postMessage(false);
 };
+
 const Flatted = (function (Primitive, primitive) {
   /*!
    * ISC License

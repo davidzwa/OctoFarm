@@ -1,8 +1,13 @@
-import "@babel/polyfill";
 import Calc from "./lib/functions/calc.js";
 import currentOperations from "./lib/modules/currentOperations.js";
 import UI from "./lib/functions/ui.js";
 import OctoFarmclient from "./lib/octofarm.js";
+import ApexCharts from 'apexcharts';
+import {GridStack} from 'gridstack';
+
+import "gridstack/dist/gridstack.min.css";
+import { GridStack } from "gridstack";
+import "gridstack/dist/h5/gridstack-dd-native";
 
 //On Load API call for new graphs
 let enviromentalData,
@@ -741,7 +746,7 @@ if (document.querySelector("#currentUtilisation")) {
 let worker = null;
 
 function createWebWorker() {
-  worker = new Worker("/assets/js/workers/dashboardWorker.min.js");
+  worker = new Worker("/assets/dist/dashboardWorker.min.js");
   worker.onmessage = async function (event) {
     if (event.data != false) {
       const currentOperationsData = event.data.currentOperations;
@@ -1303,12 +1308,10 @@ class dashUpdate {
 }
 
 const grid = GridStack.init({
-  animate: true,
-  cellHeight: 30,
+  cellHeight: 150,
   draggable: {
     handle: ".tag",
   },
-  float: true,
 });
 
 function saveGrid() {
@@ -1317,8 +1320,8 @@ function saveGrid() {
     serializedData.push({
       x: node.x,
       y: node.y,
-      width: node.width,
-      height: node.height,
+      width: 150, //node.width,
+      height: 50, //node.height,
       id: node.id,
     });
   });
@@ -1326,47 +1329,56 @@ function saveGrid() {
     "dashboardConfiguration",
     JSON.stringify(serializedData)
   );
-  // console.log(JSON.stringify(serializedData, null, '  '))
 }
+
 async function loadGrid() {
   const dashData = localStorage.getItem("dashboardConfiguration");
   const serializedData = JSON.parse(dashData);
   if (serializedData !== null && serializedData.length !== 0) {
     const items = GridStack.Utils.sort(serializedData);
     grid.batchUpdate();
-
-    // else update existing nodes (instead of calling grid.removeAll())
     grid.engine.nodes.forEach(function (node) {
       const item = items.find(function (e) {
         return e.id === node.id;
       });
-      if (typeof item !== "undefined") {
-        grid.update(node.el, item.x, item.y, item.width, item.height);
+      if (!!item) {
+        grid.update(node.el, {
+          x: item.x,
+          y: item.y,
+          w: item.width,
+          h: item.height,
+        });
       }
     });
     grid.commit();
   }
 }
 
-loadGrid();
-initNewGraphs();
-grid.on("change", async function (event, items) {
-  saveGrid();
-  let historyStatistics = await OctoFarmclient.get("history/statisticsData");
-  historyStatistics = await historyStatistics.json();
+loadGrid()
+  .then(async () => {
+    await initNewGraphs();
+  })
+  .then(() => {
+    grid.on("change", async function (event, items) {
+      saveGrid();
+      let historyStatistics = await OctoFarmclient.get(
+        "history/statisticsData"
+      );
+      historyStatistics = await historyStatistics.json();
 
-  let historyGraphData = historyStatistics.history.historyByDay;
-  let usageByDay = historyStatistics.history.totalByDay;
-  let usageOverTime = historyStatistics.history.usageOverTime;
+      let historyGraphData = historyStatistics.history.historyByDay;
+      let usageByDay = historyStatistics.history.totalByDay;
+      let usageOverTime = historyStatistics.history.usageOverTime;
 
-  if (document.querySelector("#usageOverFilamentTime")) {
-    usageOverFilamentTime.updateSeries(usageOverTime);
-  }
-  if (document.querySelector("#usageOverTime")) {
-    filamentUsage.updateSeries(usageByDay);
-  }
+      if (document.querySelector("#usageOverFilamentTime")) {
+        usageOverFilamentTime.updateSeries(usageOverTime);
+      }
+      if (document.querySelector("#usageOverTime")) {
+        filamentUsage.updateSeries(usageByDay);
+      }
 
-  if (document.querySelector("#printCompletionByDay")) {
-    historyGraph.updateSeries(historyGraphData);
-  }
-});
+      if (document.querySelector("#printCompletionByDay")) {
+        historyGraph.updateSeries(historyGraphData);
+      }
+    });
+  });

@@ -1,4 +1,3 @@
-import "@babel/polyfill";
 async function asyncParse(str) {
   try {
     const info = await parse(str);
@@ -8,7 +7,7 @@ async function asyncParse(str) {
   }
 }
 
-let source = new EventSource("/monitoringInfo/get/");
+const source = new EventSource("/printersInfo/get/");
 
 // source.addEventListener("ping", function(event) {
 //     if (e.data != null) {
@@ -18,7 +17,7 @@ let source = new EventSource("/monitoringInfo/get/");
 // });
 source.onmessage = async function (e) {
   if (e.data != null) {
-    let res = await asyncParse(e.data);
+    const res = await asyncParse(e.data);
     postMessage(res);
   }
 };
@@ -28,7 +27,7 @@ source.onerror = function () {
 source.onclose = function () {
   postMessage(false);
 };
-var Flatted = (function (Primitive, primitive) {
+const Flatted = (function (Primitive, primitive) {
   /*!
    * ISC License
    *
@@ -47,12 +46,12 @@ var Flatted = (function (Primitive, primitive) {
    * PERFORMANCE OF THIS SOFTWARE.
    */
 
-  var Flatted = {
+  const Flatted = {
     parse: function parse(text, reviver) {
-      var input = JSON.parse(text, Primitives).map(primitives);
-      var value = input[0];
-      var $ = reviver || noop;
-      var tmp =
+      const input = JSON.parse(text, Primitives).map(primitives);
+      const value = input[0];
+      const $ = reviver || noop;
+      const tmp =
         typeof value === "object" && value
           ? revive(input, new Set(), value, $)
           : value;
@@ -77,7 +76,7 @@ var Flatted = (function (Primitive, primitive) {
               firstRun = !firstRun;
               return value;
             }
-            var after = $.call(this, key, value);
+            const after = $.call(this, key, value);
             switch (typeof after) {
               case "object":
                 if (after === null) return after;
@@ -104,9 +103,9 @@ var Flatted = (function (Primitive, primitive) {
 
   function revive(input, parsed, output, $) {
     return Object.keys(output).reduce(function (output, key) {
-      var value = output[key];
+      const value = output[key];
       if (value instanceof Primitive) {
-        var tmp = input[value];
+        const tmp = input[value];
         if (typeof tmp === "object" && !parsed.has(tmp)) {
           parsed.add(tmp);
           output[key] = $.call(output, key, revive(input, parsed, tmp, $));
@@ -119,7 +118,7 @@ var Flatted = (function (Primitive, primitive) {
   }
 
   function set(known, input, value) {
-    var index = Primitive(input.push(value) - 1);
+    const index = Primitive(input.push(value) - 1);
     known.set(value, index);
     return index;
   }
@@ -137,4 +136,4 @@ var Flatted = (function (Primitive, primitive) {
   }
 })(String, "string");
 var parse = Flatted.parse;
-var stringify = Flatted.stringify;
+const stringify = Flatted.stringify;

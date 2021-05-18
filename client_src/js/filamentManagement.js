@@ -1,10 +1,10 @@
-import "@babel/polyfill";
 import OctoFarmclient from "./lib/octofarm.js";
 import UI from "./lib/functions/ui.js";
 import {
   selectFilament,
   checkFilamentManager,
 } from "./lib/modules/filamentGrab.js";
+import * as ApexCharts from "apexcharts";
 
 const jpInit = false;
 let filamentManager = false;

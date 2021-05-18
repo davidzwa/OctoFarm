@@ -1,4 +1,3 @@
-import "@babel/polyfill";
 import OctoFarmClient from "./lib/octofarm.js";
 import Calc from "./lib/functions/calc.js";
 import FileManager from "./lib/modules/fileManager.js";
@@ -295,4 +294,5 @@ class Manager {
     });
   }
 }
+
 Manager.init();
