@@ -2645,7 +2645,7 @@ class dashUpdate {
               `printerGroup-${printer._id}`
             );
 
-            printerGroup.innerHTML = printer.groups.map((g) => g.name).join();
+            printerGroup.innerHTML = printer.groups.map((g) => g.name).join() || printer.group;
 
             if (typeof printer.octoPrintSystemInfo !== "undefined") {
               if (
@@ -2658,13 +2658,11 @@ class dashUpdate {
                 ) {
                   printerPrinterInformation.innerHTML = `
              <small title="Please connect and resync to display printer firmware"><b>Firmware: </b>Unknown</small><br>
-             <small><b>Name: </b>${printer.currentProfile.name}</small><br>
              <small><b>Model: </b>${printer.currentProfile.model}</small><br>
             `;
                 } else {
                   printerPrinterInformation.innerHTML = `
              <small><b>Firmware: </b>${printer.octoPrintSystemInfo["printer.firmware"]}</small><br>
-             <small><b>Name: </b>${printer.currentProfile.name}</small><br>
              <small><b>Model: </b>${printer.currentProfile.model}</small><br>
             `;
                 }
@@ -2673,7 +2671,6 @@ class dashUpdate {
             if (typeof printer.octoPi !== "undefined") {
               printerOctoPrintInformation.innerHTML = `
           <small><b>OctoPrint: </b>${printer.octoPrintVersion}</small><br>
-          <small><b>OctoPi: </b>${printer.octoPi.version}</small><br>
           <small><b>RaspberryPi: </b>${printer.octoPi.model}</small>`;
             } else {
               printerOctoPrintInformation.innerHTML = `
@@ -2786,14 +2783,13 @@ class dashUpdate {
               "beforeend",
               `
         <tr id="printerCard-${printer._id}">
-        <th><span title="Drag and Change your Printers sorting"  id="printerSortIndex-${printer._id}"
-                   class="tag btn btn-light btn-sm sortableList"
-            >
-    ${printer.sortIndex}
-    </span></td>
-        <td class="align-middle"><div id="printerName-${printer._id}">${printerName}</div></td>
-        <td class="align-middle" id="printerActionBtns-${printer._id}"></td>
-        <td class="align-middle">
+        <td class="align-middle" style="padding:0">
+          <span title="Drag and Change your Printers sorting" id="printerSortIndex-${printer._id}" class="tag btn btn-light btn-sm sortableList">${printer.sortIndex}
+          </span>
+        </td>
+        <td class="align-middle" style="padding:0"><div id="printerName-${printer._id}">${printerName}</div></td>
+        <td class="align-middle" id="printerActionBtns-${printer._id}" style="padding:0"></td>
+        <td class="align-middle" style="padding:0">
           <button  title="Change your Printer Settings"
             id="printerSettings-${printer._id}"
                                  type="button"
@@ -2827,22 +2823,39 @@ class dashUpdate {
                                  disabled
             ><i class="fas fa-wrench"></i>
             </button>
-            <button title="You have an OctoPrint update to install!" id="octoprintUpdate-${printer._id}" class='tag btn btn-secondary btn-sm bg-colour-3 d-none'><i class="fas fa-wrench"></i> Update!</button>
-            <button title="You have OctoPrint plugin updates to install!" id="octoprintPluginUpdate-${printer._id}" class='tag btn btn-secondary btn-sm bg-colour-4 d-none'><i class="fas fa-plug"></i> Update!</button>
-    
-    </span></td>
-        <td class="align-middle"><small><span data-title="${printer.hostState.desc}" id="hostBadge-${printer._id}" class="tag badge badge-${printer.hostState.colour.name} badge-pill">
-                ${printer.hostState.state}</small></span></td>
-        <td class="align-middle"><small><span data-title="${printer.printerState.desc}" id="printerBadge-${printer._id}" class="tag badge badge-${printer.printerState.colour.name} badge-pill">
-                ${printer.printerState.state}</small></span><br><span data-title="Check printer settings, API issues detected..." id="scanningIssues-${printer._id}"></small></span></td>
-        <td class="align-middle"><small><span data-title="${printer.webSocketState.desc}" id="webSocketIcon-${printer._id}" class="tag badge badge-${printer.webSocketState.colour} badge-pill">
-                <i  class="fas fa-plug"></i></span></td>
+            <button title="You have an OctoPrint update to install!" id="octoprintUpdate-${printer._id}" class="tag btn btn-secondary btn-sm bg-colour-3 d-none"><i class="fas fa-wrench"></i> Update!</button>
+            <button title="You have OctoPrint plugin updates to install!" id="octoprintPluginUpdate-${printer._id}" class="tag btn btn-secondary btn-sm bg-colour-4 d-none"><i class="fas fa-plug"></i> Update!</button>
+          </span>
+        </td>
+        <td class="align-middle" style="padding:0">
+          <small>
+            <span data-title="${printer.hostState.desc}" id="hostBadge-${printer._id}" class="tag badge badge-${printer.hostState.colour.name} badge-pill">
+                ${printer.hostState.state}
+                </small>
+            </span>
+        </td>
+        <td class="align-middle" style="padding:0">
+          <small>
+            <span data-title="${printer.printerState.desc}" id="printerBadge-${printer._id}" class="tag badge badge-${printer.printerState.colour.name} badge-pill">
+                ${printer.printerState.state}
+            </small>
+          </span>
+          <br>
+          <span data-title="Check printer settings, API issues detected..." id="scanningIssues-${printer._id}">
+            </small>
+          </span>
+        </td>
+        <td class="align-middle" style="padding:0">
+          <small>
+            <span data-title="${printer.webSocketState.desc}" id="webSocketIcon-${printer._id}" class="tag badge badge-${printer.webSocketState.colour} badge-pill">
+                <i  class="fas fa-plug"></i>
+            </span>
+        </td>
 
-        <td class="align-middle"><div id="printerGroup-${printer._id}" ></div></td>
-        <td class="align-middle" id="printerPrinterInformation-${printer._id}"></td>
-        <td class="align-middle" id="printerOctoPrintInformation-${printer._id}"></td>
-    </tr>
-          `
+        <td class="align-middle"><div id="printerGroup-${printer._id}" style="padding:0"></div></td>
+        <td class="align-middle" id="printerPrinterInformation-${printer._id}" style="padding:0"></td>
+        <td class="align-middle" id="printerOctoPrintInformation-${printer._id}" style="padding:0"></td>
+    </tr>`
             );
 
             actionButtonInit(printer, `printerActionBtns-${printer._id}`);

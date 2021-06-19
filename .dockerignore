@@ -12,6 +12,7 @@
 /.cache
 Makefile
 /node_modules
+/package
 
 /server_2x
 /screenshots

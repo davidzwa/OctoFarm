@@ -17,7 +17,10 @@ $("#connectionModal").on("hidden.bs.modal", function (e) {
   }
 });
 
-async function updatePrinterSettingsModal(printersInformation, printerID) {
+export async function updatePrinterSettingsModal(
+  printersInformation,
+  printerID
+) {
   // Make sure we have page elements
   PrinterSettings.grabPageElements();
   // Check if printer ID is provided
@@ -1424,6 +1427,3 @@ class PrinterSettings {
     }
   }
 }
-module.exports = {
-  updatePrinterSettingsModal
-};

@@ -5,10 +5,6 @@ import OctoFarmclient from "./lib/octofarm.js";
 import ApexCharts from 'apexcharts';
 import {GridStack} from 'gridstack';
 
-import "gridstack/dist/gridstack.min.css";
-import { GridStack } from "gridstack";
-import "gridstack/dist/h5/gridstack-dd-native";
-
 //On Load API call for new graphs
 let enviromentalData,
   systemFarmTemp,
@@ -353,7 +349,7 @@ let initNewGraphs = async function () {
   if (document.querySelector("#usageOverFilamentTime")) {
     usageOverFilamentTime = new ApexCharts(
       document.querySelector("#usageOverFilamentTime"),
-      usageOverFilamentTimeOptions
+      usageOverFilamentTimeOptions,
     );
     usageOverFilamentTime.render();
 
@@ -362,7 +358,7 @@ let initNewGraphs = async function () {
   if (document.querySelector("#usageOverTime")) {
     filamentUsage = new ApexCharts(
       document.querySelector("#usageOverTime"),
-      usageOverTimeOptions
+      usageOverTimeOptions,
     );
     filamentUsage.render();
     filamentUsage.updateSeries(usageByDay);
@@ -371,7 +367,7 @@ let initNewGraphs = async function () {
   if (document.querySelector("#printCompletionByDay")) {
     historyGraph = new ApexCharts(
       document.querySelector("#printCompletionByDay"),
-      historyGraphOptions
+      historyGraphOptions,
     );
     historyGraph.render();
     historyGraph.updateSeries(historyGraphData);
@@ -717,28 +713,28 @@ const optionsUtilisation = {
 if (document.querySelector("#farmTempMap")) {
   systemFarmTemp = new ApexCharts(
     document.querySelector("#farmTempMap"),
-    optionsFarmTemp
+    optionsFarmTemp,
   );
   systemFarmTemp.render();
 }
 if (document.querySelector("#daysActivityHeatMap")) {
   activityHeatChart = new ApexCharts(
     document.querySelector("#daysActivityHeatMap"),
-    optionsHeatChart
+    optionsHeatChart,
   );
   activityHeatChart.render();
 }
 if (document.querySelector("#currentActivity")) {
   currentActivityChart = new ApexCharts(
     document.querySelector("#currentActivity"),
-    optionsRadar
+    optionsRadar,
   );
   currentActivityChart.render();
 }
 if (document.querySelector("#currentUtilisation")) {
   currentUtilisation = new ApexCharts(
     document.querySelector("#currentUtilisation"),
-    optionsUtilisation
+    optionsUtilisation,
   );
   currentUtilisation.render();
 }
@@ -757,7 +753,7 @@ function createWebWorker() {
         currentOperations(
           currentOperationsData.operations,
           currentOperationsData.count,
-          printerInfo
+          printerInfo,
         );
       }
 
@@ -765,7 +761,7 @@ function createWebWorker() {
         dashboard.timeEstimates,
         dashboard.utilisationGraph,
         dashboard.temperatureGraph,
-        dashboardSettings
+        dashboardSettings,
       );
       if (dashboardSettings.farmUtilisation.farmUtilisation) {
         dashUpdate.farmUtilisation(dashboard.farmUtilisation);
@@ -775,7 +771,7 @@ function createWebWorker() {
         dashboard.currentStatus,
         dashboard.currentUtilisation,
         dashboardSettings.printerStates.currentStatus,
-        dashboardSettings.farmUtilisation.currentUtilisation
+        dashboardSettings.farmUtilisation.currentUtilisation,
       );
 
       if (dashboardSettings.printerStates.printerState) {
@@ -796,7 +792,7 @@ function createWebWorker() {
         dashUpdate.envriromentalData(dashboard.enviromentalData);
       }
       let historyStatistics = await OctoFarmclient.get(
-        "history/statisticsData"
+        "history/statisticsData",
       );
       historyStatistics = await historyStatistics.json();
 
@@ -819,7 +815,7 @@ function createWebWorker() {
         "warning",
         "Server Events closed unexpectedly... Retying in 10 seconds",
         10000,
-        "Clicked"
+        "Clicked",
       );
     }
   };
@@ -1078,7 +1074,7 @@ class dashUpdate {
         if (document.querySelector("#enviromentalHistory")) {
           enviromentalData = new ApexCharts(
             document.querySelector("#enviromentalHistory"),
-            optionsEnviromentalData
+            optionsEnviromentalData,
           );
           enviromentalData.render();
         }
@@ -1092,7 +1088,7 @@ class dashUpdate {
       let impact = "";
       let suggestedActions = "";
       const airQualityElement = document.getElementById(
-        "indoorAirQualityAlert"
+        "indoorAirQualityAlert",
       );
       if (data[3].data.length > 0) {
         const lastValue = data[3].data[data[3].data.length - 1].y;
@@ -1183,25 +1179,25 @@ class dashUpdate {
     farmInfo,
     heatMap,
     temperatureGraph,
-    dashboardSettings
+    dashboardSettings,
   ) {
     if (dashboardSettings.farmActivity.averageTimes) {
       document.getElementById("avgEstimatedTime").innerHTML = Calc.generateTime(
-        farmInfo.averageEstimated
+        farmInfo.averageEstimated,
       );
       document.getElementById("avgRemainingTime").innerHTML = Calc.generateTime(
-        farmInfo.averageRemaining
+        farmInfo.averageRemaining,
       );
       document.getElementById("avgElapsedTime").innerHTML = Calc.generateTime(
-        farmInfo.averageElapsed
+        farmInfo.averageElapsed,
       );
       avgRemainingProgress.style.width = `${Calc.toFixed(
         farmInfo.averagePercentRemaining,
-        2
+        2,
       )}%`;
       avgRemainingProgress.innerHTML = `${Calc.toFixed(
         farmInfo.averagePercentRemaining,
-        2
+        2,
       )}%`;
       avgElapsed.style.width = `${Calc.toFixed(farmInfo.averagePercent, 2)}%`;
       avgElapsed.innerHTML = `${Calc.toFixed(farmInfo.averagePercent, 2)}%`;
@@ -1209,26 +1205,26 @@ class dashUpdate {
 
     if (dashboardSettings.farmActivity.cumulativeTimes) {
       document.getElementById("cumEstimatedTime").innerHTML = Calc.generateTime(
-        farmInfo.totalEstimated
+        farmInfo.totalEstimated,
       );
       document.getElementById("cumRemainingTime").innerHTML = Calc.generateTime(
-        farmInfo.totalRemaining
+        farmInfo.totalRemaining,
       );
       document.getElementById("cumElapsedTime").innerHTML = Calc.generateTime(
-        farmInfo.totalElapsed
+        farmInfo.totalElapsed,
       );
 
       cumRemainingProgress.style.width = `${Calc.toFixed(
         farmInfo.cumulativePercentRemaining,
-        2
+        2,
       )}%`;
       cumRemainingProgress.innerHTML = `${Calc.toFixed(
         farmInfo.cumulativePercentRemaining,
-        2
+        2,
       )}%`;
       cumElapsed.style.width = `${Calc.toFixed(
         farmInfo.cumulativePercent,
-        2
+        2,
       )}%`;
       cumElapsed.innerHTML = `${Calc.toFixed(farmInfo.cumulativePercent, 2)}%`;
     }
@@ -1237,9 +1233,9 @@ class dashUpdate {
       systemFarmTemp.updateSeries(temperatureGraph);
       document.getElementById("globalTemp").innerHTML = `
             <i class="fas fa-temperature-high"></i> Total Temperature: ${Calc.toFixed(
-              farmInfo.totalFarmTemp,
-              0
-            )} °C
+        farmInfo.totalFarmTemp,
+        0,
+      )} °C
              `;
     }
     if (dashboardSettings.historical.weeklyUtilisation) {
@@ -1251,7 +1247,7 @@ class dashUpdate {
     currentStatus,
     currentActivity,
     settingsActivity,
-    settingsUtilisation
+    settingsUtilisation,
   ) {
     if (settingsUtilisation) {
       currentUtilisation.updateSeries(currentStatus);
@@ -1265,25 +1261,25 @@ class dashUpdate {
   static farmUtilisation(stats) {
     const activeHours = document.getElementById("activeHours");
     activeHours.innerHTML = `<i class="fas fa-square text-success"></i> <b>Active: </b> ${Calc.generateTime(
-      stats.activeHours / 1000
+      stats.activeHours / 1000,
     )}`;
     const idleHours = document.getElementById("idleHours");
     idleHours.innerHTML = `<i class="fas fa-square text-secondary"></i> <b>Idle Hours: </b> ${Calc.generateTime(
-      stats.idleHours / 1000
+      stats.idleHours / 1000,
     )}`;
     const failedHours = document.getElementById("failedHours");
     failedHours.innerHTML = `<i class="fas fa-square text-warning"></i> <b>Failed Hours: </b>${Calc.generateTime(
-      stats.failedHours / 1000
+      stats.failedHours / 1000,
     )}`;
     const offlineHours = document.getElementById("offlineHours");
     offlineHours.innerHTML = `<i class="fas fa-square text-danger"></i> <b>Offline Hours: </b>${Calc.generateTime(
-      stats.offlineHours / 1000
+      stats.offlineHours / 1000,
     )}`;
     const activeProgress = document.getElementById("activeProgress");
 
     activeProgress.style.width = `${Calc.toFixed(
       stats.activeHoursPercent,
-      0
+      0,
     )}%`;
     activeProgress.innerHTML = `${Calc.toFixed(stats.activeHoursPercent, 0)}%`;
     const idleProgress = document.getElementById("idleProgress");
@@ -1292,17 +1288,17 @@ class dashUpdate {
     const failedProgress = document.getElementById("failedProgress");
     failedProgress.style.width = `${Calc.toFixed(
       stats.failedHoursPercent,
-      0
+      0,
     )}%`;
     failedProgress.innerHTML = `${Calc.toFixed(stats.failedHoursPercent, 0)}%`;
     const offlineProgress = document.getElementById("offlineProgress");
     offlineProgress.style.width = `${Calc.toFixed(
       stats.offlineHoursPercent,
-      0
+      0,
     )}%`;
     offlineProgress.innerHTML = `${Calc.toFixed(
       stats.offlineHoursPercent,
-      0
+      0,
     )}%`;
   }
 }
@@ -1311,7 +1307,7 @@ const grid = GridStack.init({
   cellHeight: 150,
   draggable: {
     handle: ".tag",
-  },
+  }
 });
 
 function saveGrid() {
@@ -1320,14 +1316,14 @@ function saveGrid() {
     serializedData.push({
       x: node.x,
       y: node.y,
-      width: 150, //node.width,
-      height: 50, //node.height,
+      width: node.width,
+      height: node.height,
       id: node.id,
     });
   });
   localStorage.setItem(
     "dashboardConfiguration",
-    JSON.stringify(serializedData)
+    JSON.stringify(serializedData),
   );
 }
 
@@ -1354,31 +1350,28 @@ async function loadGrid() {
   }
 }
 
-loadGrid()
-  .then(async () => {
-    await initNewGraphs();
-  })
-  .then(() => {
-    grid.on("change", async function (event, items) {
-      saveGrid();
-      let historyStatistics = await OctoFarmclient.get(
-        "history/statisticsData"
-      );
-      historyStatistics = await historyStatistics.json();
+loadGrid().then(async () => {
+  await initNewGraphs();
+}).then(() => {
+  grid.on("change", async function (event, items) {
+    saveGrid();
+    let historyStatistics = await OctoFarmclient.get("history/statisticsData");
+    historyStatistics = await historyStatistics.json();
 
-      let historyGraphData = historyStatistics.history.historyByDay;
-      let usageByDay = historyStatistics.history.totalByDay;
-      let usageOverTime = historyStatistics.history.usageOverTime;
+    let historyGraphData = historyStatistics.history.historyByDay;
+    let usageByDay = historyStatistics.history.totalByDay;
+    let usageOverTime = historyStatistics.history.usageOverTime;
 
-      if (document.querySelector("#usageOverFilamentTime")) {
-        usageOverFilamentTime.updateSeries(usageOverTime);
-      }
-      if (document.querySelector("#usageOverTime")) {
-        filamentUsage.updateSeries(usageByDay);
-      }
+    if (document.querySelector("#usageOverFilamentTime")) {
+      usageOverFilamentTime.updateSeries(usageOverTime);
+    }
+    if (document.querySelector("#usageOverTime")) {
+      filamentUsage.updateSeries(usageByDay);
+    }
 
-      if (document.querySelector("#printCompletionByDay")) {
-        historyGraph.updateSeries(historyGraphData);
-      }
-    });
+    if (document.querySelector("#printCompletionByDay")) {
+      historyGraph.updateSeries(historyGraphData);
+    }
   });
+});
+
