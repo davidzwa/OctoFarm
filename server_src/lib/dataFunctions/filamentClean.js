@@ -7,6 +7,7 @@ const Profiles = require("../../models/Profiles.js");
 const { PrinterClean } = require("./printerClean.js");
 
 const logger = new Logger("OctoFarm-InformationCleaning");
+
 let spoolsClean = [];
 let profilesClean = [];
 let statisticsClean = [];
@@ -281,7 +282,6 @@ class FilamentClean {
   }
 }
 
-FilamentClean.start();
 module.exports = {
   FilamentClean
 };
