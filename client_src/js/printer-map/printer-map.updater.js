@@ -231,7 +231,7 @@ async function updateState(printer, clientSettings, view) {
  * @param view
  * @returns {Promise<void>}
  */
-export async function init(printers, clientSettings, view) {
+export async function initPrinterMap(printers, clientSettings, view) {
   //Check if printer manager modal is opened
   switch (printerManagerModal.classList.contains("show")) {
     case true:

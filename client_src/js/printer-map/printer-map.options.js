@@ -1,3 +1,5 @@
+export const printerMapWorkerURL = "/monitoringInfo/get/";
+
 // Group parsing constants
 export const groupStartNames = ["rij", "row", "group", "groep"];
 export const panelPrefix = "panel";
