@@ -5,11 +5,12 @@ import {
   actionFileReprintClass,
   modalPrintFilesListId,
   oldFileCriteriumDays,
+  printerMapWorkerURL,
   quickActionsModalId
 } from "./printer-map/printer-map.options";
 import {
-  createWebWorker,
-  handleVisibilityChange
+  handleVisibilityChange,
+  printerMapSSEventHandler
 } from "./printer-map/printer-map.worker";
 import OctoFarmclient from "./lib/octofarm";
 import {
@@ -29,6 +30,8 @@ import {
   findOldFiles
 } from "./printer-map/printer-map.utils";
 import { humanFileSize } from "./utils/file-size.util";
+import { createClientSSEWorker } from "./lib/client-worker";
+import { setViewType } from "./monitoring/monitoring-view.state";
 
 document.addEventListener("visibilitychange", handleVisibilityChange, false);
 document.getElementById("filterStates").addEventListener("change", (e) => {
@@ -38,7 +41,8 @@ document.getElementById("sortStates").addEventListener("change", (e) => {
   OctoFarmclient.get("client/updateSorting/" + e.target.value);
 });
 
-createWebWorker("panel");
+setViewType("panel");
+createClientSSEWorker(printerMapWorkerURL, printerMapSSEventHandler);
 
 async function startPrint(printer, filePath) {
   const opts = {
