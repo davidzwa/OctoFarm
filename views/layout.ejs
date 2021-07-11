@@ -19,17 +19,11 @@
     <link rel="stylesheet" href="/assets/css/vendor/jplist.css"/>
     <link rel="stylesheet" href="/assets/css/vendor/font-awesome.css"/>
     <link rel="stylesheet" href="/assets/dist/octofarm.css"/>
-    <title><%= octoFarmPageTitle %>: <%= page %></title>
-    <!-- Avoid trouble -->
-    <script src="/assets/jquery.min.js"></script>
-    <script src="/assets/bootbox.min.js"></script>
-    <script src="/assets/dist/bootstrap.min.js"></script>
-    <script src="/assets/dist/vendor.min.js"></script>
-    <script src="/assets/dist/serverAliveCheck.min.js"></script>
+    <title>OctoFarm: <%= octoFarmPageTitle; %></title>
 </head>
 
 <body>
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top p-1">
+<nav class="navbar navbar-expand navbar-dark bg-dark sticky-top p-1">
     <a class="navbar-brand notyet" href="#">
         <img src="/favicon.ico" width="40px" class="pl-2" alt="favicon">
     </a>
@@ -49,7 +43,8 @@
                 </a>
             </li>
             <li class="nav-item">
-                <a title="Panel Layout Monitoring View" class="nav-link text-light text-center btn-sm <%= noPrinters %>"
+                <a title="Panel Layout Monitoring View"
+                   class="nav-link text-light text-center btn-sm <%= noPrinters %> d-none"
                    id="menuPanelView" href="/mon/panel"><i class="fas fa-columns"></i>
                     Panel</a>
             </li>
@@ -59,23 +54,26 @@
             </li>
             <li class="nav-item">
                 <a title="Camera Layout Monitoring View"
-                   class="nav-link text-light text-center btn-sm <%= noPrinters %>" id="menuCameraView"
+                   class="nav-link text-light text-center btn-sm <%= noPrinters; %> d-none" id="menuCameraView"
                    href="/mon/camera"><i class="fas fa-video"></i>
                     Camera</a>
             </li>
             <li class="nav-item">
-                <a title="Davids super power tool" class="nav-link text-light text-center btn-sm d-none"
-                   id="menuListView" href="/mon/printerMap"><i class="fas fa-list"></i> Map</a>
+                <a title="Davids super power tool" class="nav-link text-light text-center btn-sm"
+                   id="menuListView" href="/mon/printerMap">
+                    <i class="fas fa-map-marked-alt"></i> Map
+                </a>
             </li>
             <li class="nav-item">
                 <a title="Current Operations Monitoring Layout View"
                    class="nav-link text-light text-center btn-sm <%= noPrinters %>" id="menucurrentOperationsView"
                    href="/mon/currentOp"><i class="fas fa-star"></i>
-                    Current Operations</a>
+                    Current Jobs
+                </a>
             </li>
             <% if(page.includes("Camera") || page.includes("List") || page.includes("Panel") || page.includes("Printer Map")){ %>
-                <li class="nav-item">
-                    <div class="input-group p-0 m-0 pr-1  mx-auto">
+                <li class="nav-item" hidden>
+                    <div class="input-group p-0 m-0 pr-1 mx-auto">
                         <div class="input-group-prepend">
                             <label class="input-group-text" for="filterStates">Filter: </label>
                         </div>
@@ -144,8 +142,9 @@
                 </a>
             </li>
             <li class="nav-item">
-                <a title="Filament Management" class="nav-link text-center" href="/filament" id=""><i
-                            class="fas fa-toilet-paper"></i> Filament</a>
+                <a title="Filament Management" class="nav-link text-center d-none" href="/filament">
+                    <i class="fas fa-toilet-paper"></i> Filament
+                </a>
             </li>
             <li class="nav-item">
                 <a title="Filament Management" class="nav-link text-center" href="/system">
@@ -266,7 +265,17 @@
         </div>
     </div>
 
-    <div id="overlay"><i id="overlayIcon" class="fas fa-spinner fa-pulse fa-10x textActive"></i></div>
+    <!--    <div id="overlay"><i id="overlayIcon" class="fas fa-spinner fa-pulse fa-10x textActive"></i></div>-->
 </div>
+<!-- Avoid trouble -->
+<script src="/assets/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootbox.js/5.5.2/bootbox.min.js"
+        integrity="sha512-RdSPYh1WA6BF0RhpisYJVYkOyTzK4HwofJ3Q7ivt/jkpW6Vc8AurL1R+4AUcvn9IwEKAPm/fk7qFZW3OuiUDeg=="
+        crossorigin="anonymous"></script>
+
+<script src="/assets/dist/bootstrap.min.js"></script>
+<script src="/assets/dist/bootbox.min.js"></script>
+<script src="/assets/dist/vendor.min.js"></script>
+<script src="/assets/dist/serverAliveCheck.min.js"></script>
 </body>
 </html>
