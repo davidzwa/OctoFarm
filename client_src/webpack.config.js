@@ -37,6 +37,8 @@ const webpackEntries = _.fromPairs(
 
 webpackEntries["vendor"] = `${clientJSFolder}vendor/entry.js`;
 webpackEntries["bootstrap"] = "bootstrap/dist/js/bootstrap.bundle";
+// webpackEntries["jquery"] = 'jquery';
+webpackEntries["bootbox"] = "bootbox";
 
 module.exports = (env, options) => {
   const isProd = options.mode === "production";
@@ -49,8 +51,7 @@ module.exports = (env, options) => {
       path: fullDir
     },
     externals: {
-      jquery: "jQuery",
-      bootbox: "bootbox"
+      jquery: "jQuery"
     },
     mode: isProd ? "production" : "development",
     devtool: "source-map",
