@@ -4,9 +4,9 @@ const isDocker = require("is-docker");
 const { ensureAuthenticated } = require("../middleware/auth");
 const { ensureCurrentUserAndGroup } = require("../middleware/users");
 const { getDefaultDashboardSettings } = require("../constants/client-settings.constants");
-const OctoFarmManager = require("../state/octofarm.manager");
 const { fetchMongoDBConnectionString } = require("../app-env");
 const { isPm2, isNodemon, isNode } = require("../utils/env.utils.js");
+const { getPatreons } = require("../constants/patreon.constants");
 
 const viewSystem = ({
   serverVersion,
@@ -43,7 +43,8 @@ const viewSystem = ({
         isNode: isNode(),
         isPm2: isPm2(),
         update: softwareUpdateNotification
-      }
+      },
+      patreonData: getPatreons()
     });
   },
   /**
