@@ -8,6 +8,7 @@ const path = require("path");
 
 const Logger = require("./handlers/logger.js");
 const exceptionHandler = require("./exceptions/exception.handler");
+const { loadControllers } = require("awilix-express");
 const logger = new Logger("OctoFarm-Fallback-Server");
 const routePath = "./routes";
 const opts = { cwd: __dirname };
@@ -65,7 +66,8 @@ function serveNodeVersionFallback(app) {
     logger.info(msg);
   });
 
-  app.use("/", require("./routes/nodeVersionIssue", { page: "route" }));
+  app.use(loadControllers(`${routePath}/fallback-node-version-issue.controller.js`, opts));
+  app.use(loadControllers(`${routePath}/amialive.controller.js`, opts));
   app.get("*", function (req, res) {
     res.redirect("/");
   });
@@ -75,8 +77,8 @@ function serveNodeVersionFallback(app) {
 }
 
 function serveDatabaseIssueFallbackRoutes(app) {
-  app.use("/", require("./routes/databaseIssue", { page: "route" }));
-  app.use("/serverChecks", require("./routes/serverChecks", { page: "route" }));
+  app.use(loadControllers(`${routePath}/fallback-database-issue.controller.js`, opts));
+  app.use(loadControllers(`${routePath}/amialive.controller.js`, opts));
   app.get("*", function (req, res) {
     res.redirect("/");
   });

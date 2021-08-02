@@ -67,7 +67,7 @@ export async function bulkOctoPrintPluginUpdate() {
         toUpdate.push({
           printerURL: currentPrinter.printerURL,
           printerName: currentPrinter.printerName,
-          apikey: currentPrinter.apikey
+          apiKey: currentPrinter.apiKey
         });
         for (let plugin = 0; plugin < currentPrinter.octoPrintPluginUpdates.length; plugin++) {
           let currentPlugin = currentPrinter.octoPrintPluginUpdates[plugin];
@@ -112,7 +112,7 @@ export async function bulkOctoPrintClientUpdate() {
         toUpdate.push({
           printerURL: currentPrinter.printerURL,
           printerName: currentPrinter.printerName,
-          apikey: currentPrinter.apikey
+          apiKey: currentPrinter.apiKey
         });
       }
     }
@@ -262,7 +262,7 @@ export async function bulkOctoPrintControlCommand() {
   printersToControl.forEach((printer) => {
     cameraBlock += `
         <div class="col-lg-3">
-            <img width="100%" src="${printer.cameraURL}">
+            <img width="100%" src="${printer.camURL}">
         </div>
         `;
   });
@@ -456,7 +456,7 @@ export async function bulkOctoPrintControlCommand() {
       });
       printerControls.step01.addEventListener("click", (e) => {
         printersToControl.forEach((printer) => {
-          OctoFarmClient.post("printers/stepChange", {
+          OctoFarmClient.post("/printers/stepChange", {
             printer: printer._id,
             newSteps: "01"
           });
@@ -469,7 +469,7 @@ export async function bulkOctoPrintControlCommand() {
       });
       printerControls.step1.addEventListener("click", (e) => {
         printersToControl.forEach((printer) => {
-          OctoFarmClient.post("printers/stepChange", {
+          OctoFarmClient.post("/printers/stepChange", {
             printer: printer._id,
             newSteps: "1"
           });
@@ -482,7 +482,7 @@ export async function bulkOctoPrintControlCommand() {
       });
       printerControls.step10.addEventListener("click", (e) => {
         printersToControl.forEach((printer) => {
-          OctoFarmClient.post("printers/stepChange", {
+          OctoFarmClient.post("/printers/stepChange", {
             printer: printer._id,
             newSteps: "10"
           });
@@ -495,7 +495,7 @@ export async function bulkOctoPrintControlCommand() {
       });
       printerControls.step100.addEventListener("click", (e) => {
         printersToControl.forEach((printer) => {
-          OctoFarmClient.post("printers/stepChange", {
+          OctoFarmClient.post("/printers/stepChange", {
             printer: printer._id,
             newSteps: "100"
           });
@@ -551,10 +551,10 @@ export async function bulkOctoPrintPluginAction(action) {
     let printerPluginList = null;
     if (action === "install") {
       printerPluginList = await OctoFarmClient.get(
-        "printers/pluginList/" + printersForPluginAction[0]._id
+        "/printers/pluginList/" + printersForPluginAction[0]._id
       );
     } else {
-      printerPluginList = await OctoFarmClient.get("printers/pluginList/all");
+      printerPluginList = await OctoFarmClient.get("/printers/pluginList/all");
     }
     printerPluginList.forEach((plugin) => {
       if (action === "install") {

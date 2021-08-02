@@ -1004,8 +1004,8 @@ export default class PrinterManager {
       }
 
       let camURL = "";
-      if (typeof printer.cameraURL !== "undefined" && printer.cameraURL.includes("http")) {
-        camURL = printer.cameraURL;
+      if (typeof printer.camURL !== "undefined" && printer.camURL.includes("http")) {
+        camURL = printer.camURL;
       } else {
         camURL = "../../../images/noCamera.jpg";
       }
@@ -1188,7 +1188,7 @@ export default class PrinterManager {
       OctoPrintClient.move(e, currentPrinter, "home", ["z"]);
     });
     elements.printerControls.step01.addEventListener("click", (e) => {
-      OctoFarmClient.post("printers/stepChange", {
+      OctoFarmClient.post("/printers/stepChange", {
         printer: currentPrinter._id,
         newSteps: "01"
       });
@@ -1198,7 +1198,7 @@ export default class PrinterManager {
       elements.printerControls.step100.className = "btn btn-light";
     });
     elements.printerControls.step1.addEventListener("click", (e) => {
-      OctoFarmClient.post("printers/stepChange", {
+      OctoFarmClient.post("/printers/stepChange", {
         printer: currentPrinter._id,
         newSteps: "1"
       });
@@ -1208,7 +1208,7 @@ export default class PrinterManager {
       elements.printerControls.step100.className = "btn btn-light";
     });
     elements.printerControls.step10.addEventListener("click", (e) => {
-      OctoFarmClient.post("printers/stepChange", {
+      OctoFarmClient.post("/printers/stepChange", {
         printer: currentPrinter._id,
         newSteps: "10"
       });
@@ -1218,7 +1218,7 @@ export default class PrinterManager {
       elements.printerControls.step100.className = "btn btn-light";
     });
     elements.printerControls.step100.addEventListener("click", (e) => {
-      OctoFarmClient.post("printers/stepChange", {
+      OctoFarmClient.post("/printers/stepChange", {
         printer: currentPrinter._id,
         newSteps: "100"
       });
@@ -1248,7 +1248,7 @@ export default class PrinterManager {
                   ["tool" + i]: parseInt(value)
                 }
               };
-              const post = await OctoPrintClient.post(currentPrinter, "printer/tool", opt);
+              const post = await OctoPrintClient.postApi(currentPrinter, "printer/tool", opt);
               if (post.status === 204) {
                 document.getElementById("tool" + i + "Set").className =
                   "btn btn-md btn-success m-0 p-1";
@@ -1291,7 +1291,7 @@ export default class PrinterManager {
                 command: "target",
                 target: parseInt(value)
               };
-              const post = await OctoPrintClient.post(currentPrinter, "printer/bed", opt);
+              const post = await OctoPrintClient.postApi(currentPrinter, "printer/bed", opt);
               if (post.status === 204) {
                 elements.temperatures.bed[2].className = "btn btn-md btn-success m-0 p-1";
                 elements.temperatures.bed[2].value = "";
@@ -1345,7 +1345,7 @@ export default class PrinterManager {
                 command: "target",
                 target: parseInt(value)
               };
-              const post = await OctoPrintClient.post(currentPrinter, "printer/chamber", opt);
+              const post = await OctoPrintClient.postApi(currentPrinter, "printer/chamber", opt);
               if (post.status === 204) {
                 elements.temperatures.chamber[2].className = "btn btn-md btn-success m-0 p-1";
                 setTimeout(flashReturn, 500);
@@ -1391,7 +1391,7 @@ export default class PrinterManager {
       };
       let value = elements.printerControls.feedRateValue.innerHTML;
       value = value.replace("%", "");
-      OctoFarmClient.post("printers/feedChange", {
+      OctoFarmClient.post("/printers/feedChange", {
         printer: currentPrinter._id,
         newSteps: value
       });
@@ -1399,7 +1399,7 @@ export default class PrinterManager {
         command: "feedrate",
         factor: parseInt(value)
       };
-      const post = await OctoPrintClient.post(currentPrinter, "printer/printhead", opt);
+      const post = await OctoPrintClient.postApi(currentPrinter, "printer/printhead", opt);
       if (post.status === 204) {
         e.target.classList = "btn btn-success";
         setTimeout(flashReturn, 500);
@@ -1414,7 +1414,7 @@ export default class PrinterManager {
       };
       let value = elements.printerControls.flowRateValue.innerHTML;
       value = value.replace("%", "");
-      OctoFarmClient.post("printers/flowChange", {
+      OctoFarmClient.post("/printers/flowChange", {
         printer: currentPrinter._id,
         newSteps: value
       });
@@ -1422,7 +1422,7 @@ export default class PrinterManager {
         command: "flowrate",
         factor: parseInt(value)
       };
-      const post = await OctoPrintClient.post(currentPrinter, "printer/tool", opt);
+      const post = await OctoPrintClient.postApi(currentPrinter, "printer/tool", opt);
       if (post.status === 204) {
         e.target.classList = "btn btn-success";
         setTimeout(flashReturn, 500);
@@ -1438,7 +1438,7 @@ export default class PrinterManager {
       const opt = {
         commands: ["M18"]
       };
-      const post = await OctoPrintClient.post(currentPrinter, "printer/command", opt);
+      const post = await OctoPrintClient.postApi(currentPrinter, "printer/command", opt);
       if (post.status === 204) {
         e.target.classList = "btn btn-success";
         setTimeout(flashReturn, 500);
@@ -1460,7 +1460,7 @@ export default class PrinterManager {
       const opt = {
         commands: [`M106 S${fanspeed}`]
       };
-      const post = await OctoPrintClient.post(currentPrinter, "printer/command", opt);
+      const post = await OctoPrintClient.postApi(currentPrinter, "printer/command", opt);
       if (post.status === 204) {
         e.target.classList = "btn btn-success";
         setTimeout(flashReturn, 500);
@@ -1476,7 +1476,7 @@ export default class PrinterManager {
       const opt = {
         commands: ["M107"]
       };
-      const post = await OctoPrintClient.post(currentPrinter, "printer/command", opt);
+      const post = await OctoPrintClient.postApi(currentPrinter, "printer/command", opt);
       if (post.status === 204) {
         e.target.classList = "btn btn-success";
         setTimeout(flashReturn, 500);
@@ -1500,7 +1500,7 @@ export default class PrinterManager {
             command: "extrude",
             amount: parseInt(value)
           };
-          const post = await OctoPrintClient.post(currentPrinter, "printer/tool", opt);
+          const post = await OctoPrintClient.postApi(currentPrinter, "printer/tool", opt);
           if (post.status === 204) {
             e.target.classList = "btn btn-success";
             setTimeout(flashReturn, 500);
@@ -1534,7 +1534,7 @@ export default class PrinterManager {
             command: "extrude",
             amount: parseInt(value)
           };
-          const post = await OctoPrintClient.post(currentPrinter, "printer/tool", opt);
+          const post = await OctoPrintClient.postApi(currentPrinter, "printer/tool", opt);
           if (post.status === 204) {
             e.target.classList = "btn btn-success";
             setTimeout(flashReturn, 500);
@@ -1628,7 +1628,7 @@ export default class PrinterManager {
       const opt = {
         commands: input
       };
-      const post = await OctoPrintClient.post(currentPrinter, "printer/command", opt);
+      const post = await OctoPrintClient.postApi(currentPrinter, "printer/command", opt);
       if (post.status === 204) {
         elements.terminal.sendBtn.classList = "btn btn-success";
         setTimeout(flashReturn, 500);
@@ -1767,7 +1767,7 @@ export default class PrinterManager {
   static async applyState(printer, elements) {
     //Garbage collection for terminal
     if (typeof printer.fileList !== "undefined") {
-      elements.fileManager.fileFolderCount.innerHTML = `<i class="fas fa-file"></i> ${printer.fileList.filecount} <i class="fas fa-folder"></i> ${printer.fileList.folderCount}`;
+      elements.fileManager.fileFolderCount.innerHTML = `<i class="fas fa-file"></i> ${printer.fileList.fileCount} <i class="fas fa-folder"></i> ${printer.fileList.folderCount}`;
     }
 
     if (typeof printer.storage !== "undefined") {

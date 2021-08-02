@@ -6,7 +6,7 @@ let request;
 
 beforeAll(async () => {
   await dbHandler.connect();
-  const server = await setupTestApp();
+  const { server } = await setupTestApp();
 
   request = supertest(server);
 });
@@ -18,5 +18,6 @@ describe("ServerUpdate Endpoint", () => {
 
     const res = await request.post("/settings/server/update/octofarm").send();
     expect(res.statusCode).toEqual(302);
+    expect(res.text).toEqual("Found. Redirecting to /users/login");
   }, 10000);
 });
