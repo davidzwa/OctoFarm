@@ -84,9 +84,11 @@ class CurrentOperationsCache {
           active.push(pId);
         }
       } else {
-        throw new Error(
-          `Printer state ${stateCategory} did not meet state/job criteria or no job was registered.`
-        );
+        if (stateCategory !== CATEGORY.Error) {
+          throw new Error(
+            `Printer state ${stateCategory} did not meet state/job criteria or no job was registered.`
+          );
+        }
       }
     }
 
