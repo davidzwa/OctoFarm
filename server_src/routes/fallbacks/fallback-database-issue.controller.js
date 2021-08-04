@@ -1,12 +1,12 @@
 const path = require("path");
 const mongoose = require("mongoose");
-const Logger = require("../handlers/logger.js");
-const ServerSettingsDB = require("../models/ServerSettings");
+const Logger = require("../../handlers/logger.js");
+const ServerSettingsDB = require("../../models/ServerSettings");
 const isDocker = require("is-docker");
-const envUtils = require("../utils/env.utils");
-const { validateMongoURL } = require("../handlers/validators");
-const { AppConstants } = require("../app.constants");
-const { fetchMongoDBConnectionString } = require("../app-env");
+const envUtils = require("../../utils/env.utils");
+const { validateMongoURL } = require("../../handlers/validators");
+const { AppConstants } = require("../../app.constants");
+const { fetchMongoDBConnectionString } = require("../../app-env");
 
 const { createController } = require("awilix-express");
 
@@ -167,7 +167,6 @@ class FallbackIssueController {
 // prettier-ignore
 module.exports = createController(FallbackIssueController)
   .prefix("/")
-  .before([])
   .get("", "index")
   .post("restart-octofarm", "restartOctoFarm")
   .post("save-connection-env", "saveConnectionEnv")

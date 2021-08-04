@@ -191,6 +191,7 @@ module.exports = createController(PrinterController)
   .post("/update", "updateConnectionSettings")
   .post("/updateSortIndex", "updateSortIndex")
   .post("/create", "createPrinter")
+  .post("/reconnectOctoPrint/:id", "reconnectOctoPrint")
   // WIP line
   // TODO line
   .post("/stepChange", "setStepChange")
@@ -198,7 +199,6 @@ module.exports = createController(PrinterController)
   .post("/feedChange", "setFeedChange")
   .post("/updateSettings", "updateSettings")
   .post("/refreshSettings", "refreshSettings")
-  .post("/reconnectOctoPrint/:id", "reconnectOctoPrint")
   .get("/connectionLogs/:id", "connectionLogs")
   .get("/pluginList/:id", "pluginList")
   .post("/killPowerSettings/:id", "killPowerSettings");

@@ -11,6 +11,7 @@ const exceptionHandler = require("./exceptions/exception.handler");
 const { loadControllers } = require("awilix-express");
 const logger = new Logger("OctoFarm-Fallback-Server");
 const routePath = "./routes";
+const fallbacksRoutePath = `${routePath}/fallbacks`;
 const opts = { cwd: __dirname };
 
 function setupFallbackExpressServer() {
@@ -67,7 +68,7 @@ function serveNodeVersionFallback(app) {
   });
 
   // This controller has its own /amalive so dont load that
-  app.use(loadControllers(`${routePath}/fallback-node-version-issue.controller.js`, opts));
+  app.use(loadControllers(`${fallbacksRoutePath}/fallback-node-version-issue.controller.js`, opts));
   app.get("*", function (req, res) {
     res.redirect("/");
   });
@@ -77,8 +78,8 @@ function serveNodeVersionFallback(app) {
 }
 
 function serveDatabaseIssueFallbackRoutes(app) {
-  app.use(loadControllers(`${routePath}/fallback-database-issue.controller.js`, opts));
-  app.use(loadControllers(`${routePath}/amialive.controller.js`, opts));
+  app.use(loadControllers(`${fallbacksRoutePath}/fallback-database-issue.controller.js`, opts));
+  app.use(loadControllers(`${fallbacksRoutePath}/amialive.controller.js`, opts));
   app.get("*", function (req, res) {
     res.redirect("/");
   });

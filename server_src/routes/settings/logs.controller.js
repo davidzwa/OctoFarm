@@ -44,5 +44,5 @@ module.exports = createController(LogsController)
   .prefix("/settings/logs")
   .before([ensureAuthenticated])
   .get("", "list")
-  .get("download/:name", "download")
-  .post("generateLogDump", "generateLogDumpZip");
+  .get("/download/:name", "download")
+  .post("/generateLogDump", "generateLogDumpZip");

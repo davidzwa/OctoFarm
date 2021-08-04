@@ -1,6 +1,6 @@
 const { createController } = require("awilix-express");
-const { AppConstants } = require("../app.constants");
-const Logger = require("../handlers/logger.js");
+const { AppConstants } = require("../../app.constants");
+const Logger = require("../../handlers/logger.js");
 const isDocker = require("is-docker");
 
 const isPm2Safe =
@@ -42,7 +42,5 @@ class FallbackIssueController {
 
 // prettier-ignore
 module.exports = createController(FallbackIssueController)
-  .prefix("/")
-  .before([])
   .get("", "index")
-  .get("amialive", "safeAmIAlive");
+  .get("/amialive", "safeAmIAlive");
