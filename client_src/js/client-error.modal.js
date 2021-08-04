@@ -2,14 +2,10 @@ const {
   returnErrorMessage,
   returnDeveloperMessage
 } = require("./templates/error-message.templates");
+const { ClientErrors } = require("./exceptions/octofarm-client.exceptions");
 
 const octoFarmErrorModalElement = "#octofarmErrorModal";
 const octoFarmErrorModalDefaultStyle = "modal-header text-dark";
-const developerErrorMessage = {
-  name: "OctoFarm Developer Error",
-  type: "DEVELOPER ISSUE",
-  color: "warning"
-};
 
 function openErrorModal(options) {
   const errorTitle = document.getElementById("errorTitle");
@@ -17,10 +13,9 @@ function openErrorModal(options) {
   const octofarmErrorModalBanner = document.getElementById("octofarmErrorModalBanner");
 
   errorTitle.innerHTML = ` ${options.name}`;
-  errorTitle.innerHTML = ` ${options.name}`;
 
   switch (options.type) {
-    case developerErrorMessage.type:
+    case ClientErrors.DEVELOPER_CREATED_ISSUE:
       errorBody.innerHTML = returnDeveloperMessage(options);
       break;
     default:
@@ -33,10 +28,11 @@ function openErrorModal(options) {
 
 function handleEvent(event) {
   if (_.isString(event)) {
-    //TODO: Stringed error events seem to be usually developer issues ie. missing imports, unresolved imports so far...
-    developerErrorMessage.message = event;
-    openErrorModal(developerErrorMessage);
-  } else if (!event.reason) {
+    console.log("DEV ERROR");
+    //Stringed error events seem to be usually developer issues ie. missing imports, unresolved imports so far...
+    ClientErrors.DEVELOPER_CREATED_ISSUE.message = event;
+    openErrorModal(ClientErrors.DEVELOPER_CREATED_ISSUE);
+  } else if (!event?.reason) {
     openErrorModal(event);
   } else {
     openErrorModal(event.reason);
@@ -44,8 +40,12 @@ function handleEvent(event) {
 }
 
 window.onunhandledrejection = function (event) {
+  console.log("UNHANDLED");
   handleEvent(event);
+  return false;
 };
 window.onerror = function (event) {
+  console.log("ON ERROR");
   handleEvent(event);
+  return false;
 };

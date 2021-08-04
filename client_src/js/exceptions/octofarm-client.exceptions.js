@@ -18,5 +18,12 @@ export const ClientErrors = {
     color: "danger",
     code: "INVALID_PATHNAME",
     message: "Invalid pathname found"
+  },
+  DEVELOPER_CREATED_ISSUE: {
+    type: errorTypes.CLIENT,
+    name: "OctoFarm Developer Error",
+    color: "warning",
+    code: "DEVELOPER_CREATED_ISSUE",
+    message: ""
   }
 };

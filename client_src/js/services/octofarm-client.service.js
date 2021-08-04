@@ -1,9 +1,9 @@
 import Axios from "./axios.service";
 
 export default class OctoFarmClient extends Axios {
-  static base = "/api"; // Upcoming changes 
+  static base = "/api"; // Upcoming changes
   static printerRoute = "/printers";
-  static serverSettingsRoute = "/settings/server";
+  static serverSettingsRoute = "/settings2/server";
   static logsRoute = `${this.serverSettingsRoute}/logs`;
   static updateSettingsRoute = `${this.serverSettingsRoute}/update`;
 

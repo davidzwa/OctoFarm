@@ -3,7 +3,17 @@ const errorTypes = {
   SERVER: "SERVER",
   OCTOPRINT: "OCTOPRINT",
   NETWORK: "NETWORK",
+  DEVELOPER: "DEVELOPER",
   UNKNOWN: "UNKNOWN"
 };
 
-export { errorTypes };
+const errorGithubIssueMap = {
+  CLIENT: "client bug",
+  SERVER: "server bug",
+  OCTOPRINT: "octoprint",
+  NETWORK: "server bug",
+  DEVELOPER: "bug",
+  UNKNOWN: "bug"
+};
+
+export { errorTypes, errorGithubIssueMap };

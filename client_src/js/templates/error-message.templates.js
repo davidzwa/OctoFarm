@@ -1,8 +1,4 @@
-function returnGithubIssueLink(options) {
-  return `
-    https://github.com/octofarm/octofarm/issues/new?title=[title]&assignee=[assignee]&body=[body]&labels=label1,label2
-    `;
-}
+import { returnGithubIssueLink } from "../templates/github-issue.templates";
 
 function returnDeveloperMessage(options) {
   const message = options.message.replaceAll("|", "<br>");
@@ -13,26 +9,46 @@ function returnDeveloperMessage(options) {
   `;
 }
 
+function returnFileInfoBlock(options) {
+  if (options?.lineNumber || options?.fileName || options?.columnNumber) {
+    return `
+     <br>
+     <code>
+      <u>FILE INFO</u><br>
+      ${options?.lineNumber ? "LINE: " + options?.lineNumber : ""}
+      ${options?.columnNumber ? "COL: " + options?.columnNumber : ""}
+      ${options?.fileName ? "FILE: " + options?.fileName : ""}
+    </code>
+  `;
+  } else {
+    return "";
+  }
+}
+
 function returnErrorMessage(options) {
-  let statusCode = `(${options?.statusCode})`;
-  if (!statusCode) statusCode = "";
+  let statusCode = "";
+  if (options?.statusCode) {
+    statusCode = `(${options?.statusCode})`;
+  }
 
   return `
      <br>
      ${options.type} ERROR ${statusCode}: 
      <br>
      ${options.message}
-     <br>
-     <code>
-      <u>FILE INFO</u><br>
-      LINE: ${options?.lineNumber}<br>
-      COL: ${options?.columnNumber}<br>
-      ${options?.fileName ? "FILE: " + options?.fileName : ""}
-    </code>
-    <div class="py-3">
-        Please report this error to <a href="https://github.com/octofarm/octofarm/issues">OctoFarm Issues</a>!
-    </div>
+     ${returnFileInfoBlock(options)}   
+      <div class="py-3">
+          <a target="_blank" href="${returnGithubIssueLink(
+            options
+          )}"><button class="btn btn-success"><i class="fab fa-github"></i> Report to Github!</button>
+          </a>
+      </div>
+      <div class="alert alert-info small" role="alert">
+        The button above requires a github account, <a href="${returnGithubIssueLink(
+          options
+        )}">Create one here!</a> 
+      </div>
   `;
 }
 
-export { returnErrorMessage, returnDeveloperMessage, returnGithubIssueLink };
+export { returnErrorMessage, returnDeveloperMessage };
