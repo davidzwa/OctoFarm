@@ -6,7 +6,7 @@ const { ensureSystemSettingsInitiated } = require("./app-core");
 /**
  * Setup the application without hassle
  * @param loadPrinterStore (default: false) setup printer store with database connection
- * @returns {Promise<{container: AwilixContainer<any>, server: app}>}
+ * @returns {Promise<{container: AwilixContainer<any>, server: Server}>}
  */
 async function setupTestApp(loadPrinterStore = false) {
   setupEnvConfig(true);
