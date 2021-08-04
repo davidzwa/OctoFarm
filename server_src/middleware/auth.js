@@ -1,17 +1,18 @@
-// Find server Settings
-const ServerSettings = require("../models/ServerSettings.js");
+const DITokens = require("../container.tokens");
 
 module.exports = {
   async ensureAuthenticated(req, res, next) {
-    const serverSettings = await ServerSettings.find({});
-    if (!!serverSettings && serverSettings.length > 0) {
-      if (serverSettings[0].server.loginRequired === false) {
-        return next();
-      }
-      if (req.isAuthenticated()) {
-        return next();
-      }
+    const settingsStore = req.container.resolve(DITokens.settingsStore);
+    const serverSettings = settingsStore.getServerSettings();
+
+    // If login is not required, short-cut authentication
+    if (!serverSettings?.server?.loginRequired) {
+      return next();
     }
+    if (req.isAuthenticated()) {
+      return next();
+    }
+
     req.flash("error_msg", "Please log in to view this resource");
     res.redirect("/users/login");
   }

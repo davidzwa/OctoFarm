@@ -66,8 +66,8 @@ function serveNodeVersionFallback(app) {
     logger.info(msg);
   });
 
+  // This controller has its own /amalive so dont load that
   app.use(loadControllers(`${routePath}/fallback-node-version-issue.controller.js`, opts));
-  app.use(loadControllers(`${routePath}/amialive.controller.js`, opts));
   app.get("*", function (req, res) {
     res.redirect("/");
   });

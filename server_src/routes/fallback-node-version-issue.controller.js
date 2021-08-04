@@ -45,4 +45,4 @@ module.exports = createController(FallbackIssueController)
   .prefix("/")
   .before([])
   .get("", "index")
-  .get("/serverChecks/amialive", "safeAmIAlive");
+  .get("amialive", "safeAmIAlive");

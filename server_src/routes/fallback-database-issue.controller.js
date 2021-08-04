@@ -169,6 +169,6 @@ module.exports = createController(FallbackIssueController)
   .prefix("/")
   .before([])
   .get("", "index")
-  .post("/restart-octofarm", "restartOctoFarm")
-  .post("/save-connection-env", "saveConnectionEnv")
-  .post("/test-connection", "testConnection");
+  .post("restart-octofarm", "restartOctoFarm")
+  .post("save-connection-env", "saveConnectionEnv")
+  .post("test-connection", "testConnection");
