@@ -1,5 +1,6 @@
 const { createController } = require("awilix-express");
 const isDocker = require("is-docker");
+const { AppConstants } = require("../app.constants");
 const { isPm2, isNodemon, isNode } = require("../utils/env.utils");
 const { ensureCurrentUserAndGroup } = require("../middleware/users");
 
@@ -26,6 +27,6 @@ const amIAliveAPI = ({ octofarmUpdateService }) => ({
 
 // prettier-ignore
 module.exports = createController(amIAliveAPI)
-  .prefix("/amialive")
+  .prefix(AppConstants.apiRoute + "/amialive")
   .before([ensureCurrentUserAndGroup])
   .get("", "index");

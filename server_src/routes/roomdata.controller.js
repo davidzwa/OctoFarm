@@ -1,6 +1,7 @@
 const { createController } = require("awilix-express");
 const { ensureAuthenticated } = require("../middleware/auth");
 const RoomData = require("../models/RoomData.js");
+const { AppConstants } = require("../app.constants");
 
 class RoomDataController {
   #serverVersion;
@@ -22,6 +23,6 @@ class RoomDataController {
 
 // prettier-ignore
 module.exports = createController(RoomDataController)
-  .prefix("/input")
+  .prefix(AppConstants.apiRoute + "/input")
   .before([ensureAuthenticated])
   .post("/roomData", "addRoomData");

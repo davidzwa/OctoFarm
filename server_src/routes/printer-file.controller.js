@@ -2,6 +2,7 @@ const { ensureAuthenticated } = require("../middleware/auth");
 const { createController } = require("awilix-express");
 const Logger = require("../handlers/logger.js");
 const { validateMiddleware } = require("../handlers/validators");
+const { AppConstants } = require("../app.constants");
 
 class PrinterFileController {
   #filesStore;
@@ -80,7 +81,7 @@ class PrinterFileController {
 
 // prettier-ignore
 module.exports = createController(PrinterFileController)
-  .prefix("/printer-files")
+  .prefix(AppConstants.apiRoute + "/printer-files")
   .before([ensureAuthenticated])
   .delete("/file", "removeFile")
   .post("/file/resync", "resyncFile")

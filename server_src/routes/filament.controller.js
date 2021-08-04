@@ -7,6 +7,7 @@ const Spool = require("../models/Spool.js");
 const Profiles = require("../models/Profiles.js");
 const ServerSettings = require("../models/ServerSettings.js");
 const { SettingsClean } = require("../state/settings.store.js");
+const { AppConstants } = require("../app.constants");
 
 class FilamentController {
   #serverVersion;
@@ -644,7 +645,7 @@ class FilamentController {
 
 // prettier-ignore
 module.exports = createController(FilamentController)
-  .prefix("/filament")
+  .prefix(AppConstants.apiRoute + "/filament")
   .before([ensureAuthenticated])
   .get("/get/printerList", "filamentList")
   .get("/get/profile", "profiles")

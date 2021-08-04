@@ -2,6 +2,7 @@ const { createController } = require("awilix-express");
 const { ensureAuthenticated } = require("../middleware/auth");
 const Logger = require("../handlers/logger.js");
 const Alerts = require("../models/Alerts");
+const { AppConstants } = require("../app.constants");
 
 class ScriptsController {
   #serverVersion;
@@ -61,7 +62,7 @@ class ScriptsController {
 
 // prettier-ignore
 module.exports = createController(ScriptsController)
-  .prefix("/scripts")
+  .prefix(AppConstants.apiRoute + "/scripts")
   .before([ensureAuthenticated])
   .get("/get", "get")
   .delete("/delete/:id", "delete")

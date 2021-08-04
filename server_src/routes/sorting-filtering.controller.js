@@ -1,5 +1,6 @@
 const { createController } = require("awilix-express");
 const { ensureAuthenticated } = require("../middleware/auth");
+const { AppConstants } = require("../app.constants");
 
 class SortingFilteringController {
   #sortingFilteringCache;
@@ -21,7 +22,7 @@ class SortingFilteringController {
 
 // prettier-ignore
 module.exports = createController(SortingFilteringController)
-  .prefix("/client")
+  .prefix(AppConstants.apiRoute + "/client")
   .before([ensureAuthenticated])
   .get("/updateFilter/:filter", "updateFilter")
   .get("/updateSorting/:sorting", "updateSorting");

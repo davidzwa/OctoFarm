@@ -1,5 +1,6 @@
 const { createController } = require("awilix-express");
 const { ensureAuthenticated } = require("../middleware/auth");
+const { AppConstants } = require("../app.constants");
 
 class HistoryController {
   #serverVersion;
@@ -166,7 +167,7 @@ class HistoryController {
 
 // prettier-ignore
 module.exports = createController(HistoryController)
-  .prefix("/history")
+  .prefix(AppConstants.apiRoute + "/history")
   .before([ensureAuthenticated])
   .get("/get", "get")
   .delete("/delete", "delete")

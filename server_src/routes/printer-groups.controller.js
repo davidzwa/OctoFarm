@@ -1,6 +1,7 @@
 const Logger = require("nodemon");
 const { ensureAuthenticated } = require("../middleware/auth");
 const { createController } = require("awilix-express");
+const { AppConstants } = require("../app.constants");
 
 class PrinterGroupsController {
   #printerService;
@@ -34,7 +35,7 @@ class PrinterGroupsController {
 
 // prettier-ignore
 module.exports = createController(PrinterGroupsController)
-  .prefix("/printer-groups")
+  .prefix(AppConstants.apiRoute + "/printer-groups")
   .before([ensureAuthenticated])
   .get("/list", "listGroups")
   .get("/list-new", "listNewGroups")
