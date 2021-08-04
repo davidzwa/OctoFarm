@@ -5,14 +5,14 @@ const {
 const { ClientErrors } = require("./exceptions/octofarm-client.exceptions");
 
 const octoFarmErrorModalElement = "#octofarmErrorModal";
-const octoFarmErrorModalDefaultStyle = "modal-header text-dark";
+const octoFarmErrorModalDefaultStyle = "modal-header text-white";
 
 function openErrorModal(options) {
   const errorTitle = document.getElementById("errorTitle");
   const errorBody = document.getElementById("errorBody");
   const octofarmErrorModalBanner = document.getElementById("octofarmErrorModalBanner");
 
-  errorTitle.innerHTML = ` ${options.name}`;
+  errorTitle.innerHTML = `${options.type} ERROR`;
 
   switch (options.type) {
     case ClientErrors.DEVELOPER_CREATED_ISSUE:

@@ -33,8 +33,6 @@ function returnErrorMessage(options) {
 
   return `
      <br>
-     ${options.type} ERROR ${statusCode}: 
-     <br>
      ${options.message}
      ${returnFileInfoBlock(options)}   
       <div class="py-3">
