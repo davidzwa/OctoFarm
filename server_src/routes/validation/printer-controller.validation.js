@@ -4,6 +4,18 @@ const idRules = {
   id: "required|mongoId"
 };
 
+const stepSizeRules = {
+  stepSize: "required|in:01,1,10,100|numeric"
+};
+
+const flowRateRules = {
+  flowRate: "required|between:75,125|integer"
+};
+
+const feedRateRules = {
+  feedRate: "required|between:10,200|integer"
+};
+
 const updateSortIndexRules = {
   sortList: "required|array|minLength:1",
   "sortList.*": "required|mongoId"
@@ -20,6 +32,9 @@ const updatePrinterConnectionSettingRules = {
 
 module.exports = {
   idRules,
+  stepSizeRules,
+  feedRateRules,
+  flowRateRules,
   updateSortIndexRules,
   updatePrinterConnectionSettingRules
 };

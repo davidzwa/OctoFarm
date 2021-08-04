@@ -5,7 +5,10 @@ const { validateMiddleware, validateInput } = require("../handlers/validators");
 const {
   idRules,
   updateSortIndexRules,
-  updatePrinterConnectionSettingRules
+  updatePrinterConnectionSettingRules,
+  stepSizeRules,
+  flowRateRules,
+  feedRateRules
 } = require("./validation/printer-controller.validation");
 const { AppConstants } = require("../app.constants");
 const { convertHttpUrlToWebsocket } = require("../utils/url.utils");
@@ -35,6 +38,18 @@ class PrinterController {
     const id = req.params.id;
     const foundPrinter = this.#printersStore.getPrinterFlat(id);
     res.send(foundPrinter);
+  }
+
+  async create(req, res) {
+    const newPrinter = req.body;
+    if (!newPrinter.webSocketURL) {
+      newPrinter.webSocketURL = convertHttpUrlToWebsocket(newPrinter.printerURL);
+    }
+    this.#logger.info("Add printer", newPrinter);
+
+    // Has internal validation, but might add some here above as well
+    const printerState = await this.#printersStore.addPrinter(req.body);
+    res.send({ printerState: printerState.toFlat() });
   }
 
   async list(req, res) {
@@ -84,7 +99,7 @@ class PrinterController {
     res.send({});
   }
 
-  async reconnectOctoPrint(req, res) {
+  async reconnect(req, res) {
     const printerID = req.params.id;
     this.#logger.info("Reconnecting OctoPrint instance: ", printerID);
     this.#printersStore.reconnectOctoPrint(printerID, true);
@@ -92,40 +107,31 @@ class PrinterController {
     res.send({ success: true, message: "Printer will reconnect soon" });
   }
 
-  async createPrinter(req, res) {
-    const newPrinter = req.body;
-    if (!newPrinter.webSocketURL) {
-      newPrinter.webSocketURL = convertHttpUrlToWebsocket(newPrinter.printerURL);
-    }
-    this.#logger.info("Add printer", newPrinter);
+  async setStepSize(req, res) {
+    const params = await validateInput(req.params, idRules);
+    const data = await validateMiddleware(req, stepSizeRules, res);
 
-    // Has internal validation, but might add some here above as well
-    const printerState = await this.#printersStore.addPrinter(req.body);
-    res.send({ printerState: printerState.toFlat() });
+    this.#printersStore.setPrinterStepSize(params.id, data.stepSize);
+    res.send();
+  }
+
+  async setFeedRate(req, res) {
+    const params = await validateInput(req.params, idRules);
+    const data = await validateMiddleware(req, feedRateRules, res);
+
+    await this.#printersStore.setPrinterFeedRate(params.id, data.feedRate);
+    res.send();
+  }
+
+  async setFlowRate(req, res) {
+    const params = await validateInput(req.params, idRules);
+    const data = await validateMiddleware(req, flowRateRules, res);
+
+    await this.#printersStore.setPrinterFlowRate(params.id, data.flowRate);
+    res.send();
   }
 
   // TODO === The big todo line ===
-  async setStepChange(req, res) {
-    const step = req.body;
-    // TODO Validate
-    await Runner.stepRate(step.printer, step.newSteps);
-    res.send("success");
-  }
-
-  async setFlowChange(req, res) {
-    const step = req.body;
-    // TODO Validate
-    await Runner.flowRate(step.printer, step.newSteps);
-    res.send("success");
-  }
-
-  async setFeedChange(req, res) {
-    const step = req.body;
-    // TODO Validate
-    Runner.feedRate(step.printer, step.newSteps);
-    res.send("success");
-  }
-
   async updateSettings(req, res) {
     const settings = req.body;
     // TODO Validate body
@@ -186,17 +192,17 @@ module.exports = createController(PrinterController)
   .prefix(AppConstants.apiRoute + "/printer")
   .before([ensureAuthenticated])
   .get("/", "list")
+  .post("/", "create")
   .get("/:id", "get")
   .delete("/:id", "delete")
-  .post("/update", "updateConnectionSettings")
-  .post("/updateSortIndex", "updateSortIndex")
-  .post("/create", "createPrinter")
-  .post("/reconnectOctoPrint/:id", "reconnectOctoPrint")
+  .put("/:id/connection", "updateConnectionSettings")
+  .put("/sort-index", "updateSortIndex")
+  .post("/:id/reconnect", "reconnectOctoPrint")
+  .put("/:id/step-size", "setStepSize")
+  .put("/:id/flow-rate", "setFlowRate")
+  .put("/:id/feed-rate", "setFeedRate")
   // WIP line
   // TODO line
-  .post("/stepChange", "setStepChange")
-  .post("/flowChange", "setFlowChange")
-  .post("/feedChange", "setFeedChange")
   .post("/updateSettings", "updateSettings")
   .post("/refreshSettings", "refreshSettings")
   .get("/connectionLogs/:id", "connectionLogs")

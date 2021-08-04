@@ -114,6 +114,18 @@ export default class OctoFarmClient {
     return this.post(`${this.printerRoute}/updateSortIndex`, { sortList: idList });
   }
 
+  static async setStepSize(printerId, stepSize) {
+    return this.put(`${this.printerRoute}/${printerId}/step-size`, { stepSize });
+  }
+
+  static async setFlowRate(printerId, flowRate) {
+    return this.put(`${this.printerRoute}/${printerId}/flow-rate`, { flowRate });
+  }
+
+  static async setFeedRate(printerId, feedRate) {
+    return this.put(`${this.printerRoute}/${printerId}/feed-rate`, { feedRate });
+  }
+
   static async reconnectFarmCommand() {
     throw "This command is not implemented as it is quite taxing...";
     // return this.postApi(`${this.printerRoute}/reconnectOctoPrint/`);
@@ -190,6 +202,13 @@ export default class OctoFarmClient {
   static async post(path, data) {
     const url = new URL(path, window.location.origin).href;
     return axios.post(url, data).then((res) => {
+      return res.data;
+    });
+  }
+
+  static async put(path, data) {
+    const url = new URL(path, window.location.origin).href;
+    return axios.put(url, data).then((res) => {
       return res.data;
     });
   }

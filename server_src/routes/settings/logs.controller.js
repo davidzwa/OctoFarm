@@ -1,6 +1,7 @@
 const { createController } = require("awilix-express");
 const { ensureAuthenticated } = require("../../middleware/auth");
 const Logger = require("../../handlers/logger.js");
+const { AppConstants } = require("../../app.constants");
 
 class LogsController {
   #logger = new Logger("OctoFarm-API");
@@ -41,7 +42,7 @@ class LogsController {
 
 // prettier-ignore
 module.exports = createController(LogsController)
-  .prefix("/settings/logs")
+  .prefix(AppConstants.apiRoute + "/settings/logs")
   .before([ensureAuthenticated])
   .get("", "list")
   .get("/download/:name", "download")

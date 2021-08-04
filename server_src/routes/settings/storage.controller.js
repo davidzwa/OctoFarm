@@ -2,6 +2,7 @@ const { createController } = require("awilix-express");
 const { ensureAuthenticated } = require("../../middleware/auth");
 const Logger = require("../../handlers/logger.js");
 const multer = require("multer");
+const { AppConstants } = require("../../app.constants");
 
 const Storage = multer.diskStorage({
   destination: function (req, file, callback) {
@@ -25,6 +26,6 @@ class StorageController {
 
 // prettier-ignore
 module.exports = createController(StorageController)
-  .prefix("/settings")
+  .prefix(AppConstants.apiRoute + "/settings")
   .before([ensureAuthenticated])
   .post("/backgroundUpload", "uploadBackgroundImage", {before: [upload.single("myFile")]});

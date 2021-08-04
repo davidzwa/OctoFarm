@@ -111,7 +111,7 @@ describe("PrintersStore", () => {
         desc: expect.any(String),
         colour: expect.any(String) // ?
       },
-      stepRate: expect.any(Number),
+      stepSize: expect.any(Number),
       systemChecks: getSystemChecksDefault(),
       alerts: null
     });

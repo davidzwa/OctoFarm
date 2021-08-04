@@ -73,6 +73,22 @@ class PrinterService {
     });
   }
 
+  async updateFlowRate(printerId, flowRate) {
+    const filter = { _id: printerId };
+    const update = { flowRate };
+    return Printers.findOneAndUpdate(filter, update, {
+      returnOriginal: false
+    });
+  }
+
+  async updateFeedRate(printerId, feedRate) {
+    const filter = { _id: printerId };
+    const update = { feedRate };
+    return Printers.findOneAndUpdate(filter, update, {
+      returnOriginal: false
+    });
+  }
+
   async updateConnectionSettings(printerId, { printerURL, camURL, webSocketURL, apiKey }) {
     const filter = { _id: printerId };
     const update = {

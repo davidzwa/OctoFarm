@@ -2,6 +2,7 @@ const CustomGcode = require("../../models/CustomGcode");
 const { createController } = require("awilix-express");
 const { ensureAuthenticated } = require("../../middleware/auth");
 const Logger = require("../../handlers/logger.js");
+const { AppConstants } = require("../../app.constants");
 
 class CustomGcodeController {
   #logger = new Logger("OctoFarm-API");
@@ -53,7 +54,7 @@ class CustomGcodeController {
 
 // prettier-ignore
 module.exports = createController(CustomGcodeController)
-  .prefix("/settings/customGcode")
+  .prefix(AppConstants.apiRoute + "/settings/customGcode")
   .before([ensureAuthenticated])
   .delete("/delete/:id", "deleteGcode")
   .get("/", "list")

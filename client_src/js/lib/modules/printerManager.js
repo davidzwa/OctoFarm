@@ -80,7 +80,7 @@ export default class PrinterManager {
       );
       const elements = PrinterManager.grabPage();
       elements.terminal.terminalWindow.innerHTML = "";
-      elements.printerControls["step" + currentPrinter.stepRate].className = "btn btn-dark active";
+      elements.printerControls["step" + currentPrinter.stepSize].className = "btn btn-dark active";
       PrinterManager.applyState(currentPrinter, elements);
       PrinterManager.applyTemps(currentPrinter, elements);
       PrinterManager.applyListeners(elements, printers, filamentDropDown);
@@ -1187,41 +1187,29 @@ export default class PrinterManager {
     elements.printerControls.zHome.addEventListener("click", (e) => {
       OctoPrintClient.move(e, currentPrinter, "home", ["z"]);
     });
-    elements.printerControls.step01.addEventListener("click", (e) => {
-      OctoFarmClient.post("/printers/stepChange", {
-        printer: currentPrinter._id,
-        newSteps: "01"
-      });
+    elements.printerControls.step01.addEventListener("click", async (e) => {
+      await OctoFarmClient.setStepSize(currentPrinter._id, "01");
       elements.printerControls.step01.className = "btn btn-dark active";
       elements.printerControls.step1.className = "btn btn-light";
       elements.printerControls.step10.className = "btn btn-light";
       elements.printerControls.step100.className = "btn btn-light";
     });
-    elements.printerControls.step1.addEventListener("click", (e) => {
-      OctoFarmClient.post("/printers/stepChange", {
-        printer: currentPrinter._id,
-        newSteps: "1"
-      });
+    elements.printerControls.step1.addEventListener("click", async (e) => {
+      await OctoFarmClient.setStepSize(currentPrinter._id, "1");
       elements.printerControls.step1.className = "btn btn-dark active";
       elements.printerControls.step01.className = "btn btn-light";
       elements.printerControls.step10.className = "btn btn-light";
       elements.printerControls.step100.className = "btn btn-light";
     });
-    elements.printerControls.step10.addEventListener("click", (e) => {
-      OctoFarmClient.post("/printers/stepChange", {
-        printer: currentPrinter._id,
-        newSteps: "10"
-      });
+    elements.printerControls.step10.addEventListener("click", async (e) => {
+      await OctoFarmClient.setStepSize(currentPrinter._id, "10");
       elements.printerControls.step10.className = "btn btn-dark active";
       elements.printerControls.step1.className = "btn btn-light";
       elements.printerControls.step01.className = "btn btn-light";
       elements.printerControls.step100.className = "btn btn-light";
     });
-    elements.printerControls.step100.addEventListener("click", (e) => {
-      OctoFarmClient.post("/printers/stepChange", {
-        printer: currentPrinter._id,
-        newSteps: "100"
-      });
+    elements.printerControls.step100.addEventListener("click", async (e) => {
+      await OctoFarmClient.setStepSize(currentPrinter._id, "100");
       elements.printerControls.step100.className = "btn btn-dark active";
       elements.printerControls.step1.className = "btn btn-light";
       elements.printerControls.step10.className = "btn btn-light";

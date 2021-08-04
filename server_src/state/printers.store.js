@@ -256,29 +256,31 @@ class PrintersStore {
     return this.#printerStates.map((printer) => printer.getOctoPrintVersion());
   }
 
-  // async flowRate(id, newRate) {
-  //   const fprinter = this.getPrinter(id);
-  //   fprinter.flowRate = newRate;
-  //   const printer = await Printers.findById(id);
-  //   printer.flowRate = fprinter.flowRate;
-  //   printer.save();
-  //   PrinterClean.generate(fprinter, serverSettings.filamentManager);
-  // }
-  //
-  // async feedRate(id, newRate) {
-  //   const fprinter = this.getPrinter(id);
-  //   fprinter.feedRate = newRate;
-  //   const printer = await Printers.findById(id);
-  //   printer.feedRate = fprinter.feedRate;
-  //   printer.save();
-  //   PrinterClean.generate(fprinter, serverSettings.filamentManager);
-  // }
-  //
-  // stepRate(id, newRate) {
-  //   const printer = this.getPrinter(id);
-  //   printer.stepRate = newRate;
-  //   PrinterClean.generate(printer, serverSettings.filamentManager);
-  // }
+  setPrinterStepSize(id, stepSize) {
+    // Will be abstracted in future in order to fit different types of printers
+    const printer = this.getPrinterState(id);
+    printer.updateStepSize(stepSize);
+  }
+
+  async setPrinterFeedRate(id, feedRate) {
+    const printerState = this.getPrinterState(id);
+
+    const doc = await this.#printerService.updateFeedRate(id, feedRate);
+
+    printerState.updateEntityData(doc, false);
+
+    return feedRate;
+  }
+
+  async setPrinterFlowRate(id, flowRate) {
+    const printerState = this.getPrinterState(id);
+
+    const doc = await this.#printerService.updateFlowRate(id, flowRate);
+
+    printerState.updateEntityData(doc, false);
+
+    return flowRate;
+  }
 }
 
 module.exports = PrintersStore;

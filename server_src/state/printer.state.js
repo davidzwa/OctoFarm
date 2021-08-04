@@ -36,7 +36,7 @@ class PrinterState {
   #sessionUser;
   #sessionKey;
 
-  #stepRate = 10;
+  #stepSize = 10; // 0.1, 1, 10 or 100
   #systemChecks = getSystemChecksDefault();
   #alerts = null;
 
@@ -159,9 +159,6 @@ class PrinterState {
       printerState: this.getPrinterState(),
       hostState: this.#hostState,
       webSocketState: convertedWSState,
-      stepRate: this.#stepRate,
-      systemChecks: this.#systemChecks,
-      alerts: this.#alerts,
 
       // ...
       costSettings: { ...this.#entityData.costSettings },
@@ -186,6 +183,9 @@ class PrinterState {
       corsCheck: true,
       // Placeholder? https://github.com/OctoFarm/OctoFarm/blob/7fed18b1b3036cfb77f1a0d8d51be1e14fbcb541/server_src/lib/dataFunctions/printerClean.js#L374
       display: true, // TODO causes monitoring to show it. But it is not a proper place
+      stepSize: this.#stepSize,
+      systemChecks: this.#systemChecks, // TODO remove
+      alerts: this.#alerts,
       otherSettings: {
         temperatureTriggers: this.#entityData.tempTriggers,
         system: {
@@ -239,6 +239,10 @@ class PrinterState {
    */
   updateSystemInfo(systemInfo) {
     this.#octoPrintSystemInfo = systemInfo;
+  }
+
+  updateStepSize(stepSize) {
+    this.#stepSize = stepSize;
   }
 
   getSortIndex() {
