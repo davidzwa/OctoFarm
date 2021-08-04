@@ -1,13 +1,13 @@
 import OctoFarmClient from "../services/octofarm-client.service";
 import UI from "../lib/functions/ui";
 import Calc from "../lib/functions/calc";
-import { setupOctoPrintForTimelapses } from "../octoprint/octoprint-settings.actions";
 import {
   isFilamentManagerPluginSyncEnabled,
   setupFilamentManagerDisableBtn,
   setupFilamentManagerReSyncBtn,
   setupFilamentManagerSyncBtn
 } from "../services/filament-manager-plugin.service";
+import OctoPrintClient from "../services/octoprint-client.service";
 import { settingsElements } from "./server.options";
 import { serverBootBoxOptions } from "./utils/bootbox.options";
 import { cpuChartOptions, memoryChartOptions } from "./utils/charts.options";
@@ -23,7 +23,9 @@ async function setupOPTimelapseSettings() {
     "warning",
     `${UI.returnSpinnerTemplate()} Setting up your OctoPrint settings, please wait...`
   );
-  const { successfulPrinters, failedPrinters } = await setupOctoPrintForTimelapses(printers);
+  const { successfulPrinters, failedPrinters } = await OctoPrintClient.setupOctoPrintForTimelapses(
+    printers
+  );
   alert.close();
   bootbox.alert(successfulPrinters + failedPrinters);
 }

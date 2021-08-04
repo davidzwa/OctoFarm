@@ -1,26 +1,22 @@
 import { errorTypes } from "./error.types";
 
-//TODO: Needs updating for actual usage.
 export const ClientErrors = {
-  FAILED_VALIDATION_PATH: {
+  INVALID_SERVER_RESPONSE: {
     type: errorTypes.CLIENT,
     color: "danger",
-    code: "FAILED_VALIDATION_PATH",
-    message: "Input validation failed, no path was supplied",
-    statusCode: 412
+    code: "INVALID_SERVER_RESPONSE",
+    message: "Server responded with redirect! Invalid api endpoint detected"
   },
-  FAILED_VALIDATION_KEY: {
+  NO_PATHNAME_SUPPLIED: {
     type: errorTypes.CLIENT,
     color: "danger",
-    code: "FAILED_VALIDATION_KEY",
-    message: "Input validation failed, no key was supplied",
-    statusCode: 412
+    code: "NO_PATHNAME_SUPPLIED",
+    message: "You need to supply a url / path to this command"
   },
-  FAILED_STATE_UPDATE: {
+  INVALID_PATHNAME: {
     type: errorTypes.CLIENT,
-    color: "warning",
-    code: "FAILED_STATE_UPDATE",
-    message: "There was an issue updating the printer state",
-    statusCode: 412
+    color: "danger",
+    code: "INVALID_PATHNAME",
+    message: "Invalid pathname found"
   }
 };

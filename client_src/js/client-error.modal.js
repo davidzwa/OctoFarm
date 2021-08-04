@@ -1,44 +1,42 @@
+const {
+  returnErrorMessage,
+  returnDeveloperMessage
+} = require("./templates/error-message.templates");
+
 const octoFarmErrorModalElement = "#octofarmErrorModal";
-
-function returnErrorMessage(options) {
-  let statusCode = `(${options?.statusCode})`;
-  if (!statusCode) statusCode = "";
-
-  return `
-     <br>
-     ${options.type} ERROR ${statusCode}: 
-     <br>
-     <div class="py-3">
-        Please report this error to <a href="https://github.com/octofarm/octofarm/issues">OctoFarm Issues</a>!
-     </div>
-     ${options.message}
-  `;
-}
-
-function returnModalDeveloperInfo(options) {
-  return `
-    <code>
-    <u>FILE INFO</u><br>
-    LINE: ${options?.lineNumber}<br>
-    COL: ${options?.columnNumber}<br>
-    ${options?.fileName ? "FILE: " + options?.fileName : ""}
-    </code>
-  `;
-}
+const octoFarmErrorModalDefaultStyle = "modal-header text-dark";
+const developerErrorMessage = {
+  name: "OctoFarm Developer Error",
+  type: "DEVELOPER ISSUE",
+  color: "warning"
+};
 
 function openErrorModal(options) {
-  const apiErrorTitle = document.getElementById("apiErrorTitle");
-  const apiErrorMessage = document.getElementById("apiErrorMessage");
-  const apiDeveloperInfo = document.getElementById("apiDeveloperInfo");
-  apiErrorTitle.innerHTML = ` ${options?.name}`;
-  apiErrorMessage.innerHTML = returnErrorMessage(options);
-  apiErrorMessage.className = `text-${options?.color}`;
-  apiDeveloperInfo.innerHTML = returnModalDeveloperInfo(options);
+  const errorTitle = document.getElementById("errorTitle");
+  const errorBody = document.getElementById("errorBody");
+  const octofarmErrorModalBanner = document.getElementById("octofarmErrorModalBanner");
+
+  errorTitle.innerHTML = ` ${options.name}`;
+  errorTitle.innerHTML = ` ${options.name}`;
+
+  switch (options.type) {
+    case developerErrorMessage.type:
+      errorBody.innerHTML = returnDeveloperMessage(options);
+      break;
+    default:
+      errorBody.innerHTML = returnErrorMessage(options);
+  }
+
+  octofarmErrorModalBanner.className = `${octoFarmErrorModalDefaultStyle} bg-${options?.color}`;
   $(octoFarmErrorModalElement).modal("show");
 }
 
-function handleEvent() {
-  if (!event.reason) {
+function handleEvent(event) {
+  if (_.isString(event)) {
+    //TODO: Stringed error events seem to be usually developer issues ie. missing imports, unresolved imports so far...
+    developerErrorMessage.message = event;
+    openErrorModal(developerErrorMessage);
+  } else if (!event.reason) {
     openErrorModal(event);
   } else {
     openErrorModal(event.reason);
@@ -48,6 +46,6 @@ function handleEvent() {
 window.onunhandledrejection = function (event) {
   handleEvent(event);
 };
-window.onerror = function (message, source, lineno, colno, error) {
-  handleEvent(message);
+window.onerror = function (event) {
+  handleEvent(event);
 };
