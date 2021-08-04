@@ -55,7 +55,7 @@ axios.interceptors.response.use(
 export default class OctoFarmClient {
   static base = "/api";
   static printerRoute = this.base + "/printer";
-  static serverSettingsRoute = "/settings/server";
+  static serverSettingsRoute = this.base + "/settings/server";
   static logsRoute = `${this.serverSettingsRoute}/logs`;
   static updateSettingsRoute = `${this.serverSettingsRoute}/update`;
 
