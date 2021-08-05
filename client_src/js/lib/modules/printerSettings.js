@@ -646,7 +646,7 @@ class PrinterSettings {
         currentPrinter.powerSettings.powerStatusURL;
     }
     document.getElementById("resetPowerFields").addEventListener("click", async () => {
-      await OctoFarmClient.post("/printers/killPowerSettings/" + currentPrinter?._id);
+      await OctoFarmClient.resetPowerSettings(currentPrinter?._id);
       UI.createAlert("success", "Successfully cleared Power Settings", 3000, "clicked");
     });
   }

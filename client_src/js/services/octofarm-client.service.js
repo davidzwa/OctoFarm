@@ -126,13 +126,17 @@ export default class OctoFarmClient {
     return this.put(`${this.printerRoute}/${printerId}/feed-rate`, { feedRate });
   }
 
+  static async deletePrinter(printerId) {
+    return this.delete(`${this.printerRoute}/${printerId}`);
+  }
+
+  static async resetPowerSettings(printerId) {
+    return this.put(`${this.printerRoute}/${printerId}/reset-power-settings`);
+  }
+
   static async reconnectFarmCommand() {
     throw "This command is not implemented as it is quite taxing...";
     // return this.postApi(`${this.printerRoute}/reconnectOctoPrint/`);
-  }
-
-  static async deletePrinter(printerId) {
-    return this.delete(`${this.printerRoute}/${printerId}`);
   }
 
   static async reconnectOctoPrintCommand(id) {

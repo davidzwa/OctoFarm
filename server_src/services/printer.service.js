@@ -3,7 +3,10 @@ const { NotFoundException } = require("../exceptions/runtime.exceptions");
 const { sanitizeURL } = require("../utils/url.utils");
 const { validateInput } = require("../handlers/validators");
 const { createPrinterRules } = require("./validators/printer-service.validators");
-const { getDefaultPrinterEntry } = require("../constants/service.constants");
+const {
+  getDefaultPrinterEntry,
+  getPowerSettingsDefault
+} = require("../constants/service.constants");
 
 class PrinterService {
   /**
@@ -84,6 +87,17 @@ class PrinterService {
   async updateFeedRate(printerId, feedRate) {
     const filter = { _id: printerId };
     const update = { feedRate };
+    return Printers.findOneAndUpdate(filter, update, {
+      returnOriginal: false
+    });
+  }
+
+  async resetPowerSettings(printerId) {
+    const filter = { _id: printerId };
+    const update = {
+      powerSettings: getPowerSettingsDefault()
+    };
+
     return Printers.findOneAndUpdate(filter, update, {
       returnOriginal: false
     });

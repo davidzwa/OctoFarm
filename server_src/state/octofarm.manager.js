@@ -267,27 +267,6 @@ class OctoFarmManager {
       });
   }
 
-  async killPowerSettings(printerID) {
-    try {
-      const fprinter = this.getPrinter(id);
-      fprinter.powerSettings = getPowerSettingsDefault();
-      fprinter.powerSettings.wol = {
-        enabled: fprinter.powerSettings.wol.enabled,
-        ip: fprinter.powerSettings.wol.ip,
-        packets: fprinter.powerSettings.wol.packets,
-        port: fprinter.powerSettings.wol.port,
-        interval: fprinter.powerSettings.wol.interval,
-        MAC: fprinter.powerSettings.wol.MAC
-      };
-      const printer = await Printers.findById(fprinter._id);
-      printer.powerSettings = printer.powerSettings;
-      printer.save();
-      return true;
-    } catch (e) {
-      return false;
-    }
-  }
-
   async getSettings(id) {
     const printer = this.getPrinter(id);
     printer.systemChecks.settings.status = "warning";

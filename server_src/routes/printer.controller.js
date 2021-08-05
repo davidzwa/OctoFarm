@@ -131,6 +131,14 @@ class PrinterController {
     res.send();
   }
 
+  async resetPowerSettings(req, res) {
+    const params = await validateInput(req.params, idRules);
+
+    const defaultPowerSettings = await this.#printersStore.resetPrinterPowerSettings(params.id);
+
+    res.send({ powerSettings: defaultPowerSettings });
+  }
+
   // TODO === The big todo line ===
   async updateSettings(req, res) {
     const settings = req.body;
@@ -157,13 +165,6 @@ class PrinterController {
       res.statusMessage = `The server couldn't update your printer settings! ${e}`;
       res.sendStatus(500);
     }
-  }
-
-  async killPowerSettings(req, res) {
-    const printerID = req.params.id;
-    // TODO Validate
-    const updateSettings = await Runner.killPowerSettings(printerID);
-    res.send({ updateSettings });
   }
 
   async connectionLogs(req, res) {
@@ -201,10 +202,11 @@ module.exports = createController(PrinterController)
   .put("/:id/step-size", "setStepSize")
   .put("/:id/flow-rate", "setFlowRate")
   .put("/:id/feed-rate", "setFeedRate")
+  .put("/:id/reset-power-settings", "resetPowerSettings")
   // WIP line
   // TODO line
   .post("/updateSettings", "updateSettings")
   .post("/refreshSettings", "refreshSettings")
   .get("/connectionLogs/:id", "connectionLogs")
   .get("/pluginList/:id", "pluginList")
-  .post("/killPowerSettings/:id", "killPowerSettings");
+;

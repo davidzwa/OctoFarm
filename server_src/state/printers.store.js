@@ -268,8 +268,6 @@ class PrintersStore {
     const doc = await this.#printerService.updateFeedRate(id, feedRate);
 
     printerState.updateEntityData(doc, false);
-
-    return feedRate;
   }
 
   async setPrinterFlowRate(id, flowRate) {
@@ -278,8 +276,16 @@ class PrintersStore {
     const doc = await this.#printerService.updateFlowRate(id, flowRate);
 
     printerState.updateEntityData(doc, false);
+  }
 
-    return flowRate;
+  async resetPrinterPowerSettings(id) {
+    const printerState = this.getPrinterState(id);
+
+    const doc = await this.#printerService.resetPowerSettings(id);
+
+    printerState.updateEntityData(doc, false);
+
+    return doc.powerSettings;
   }
 }
 
