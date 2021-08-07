@@ -1,4 +1,5 @@
 import UI from "./lib/functions/ui";
+import OctoFarmClient from "./services/octofarm-client.service";
 
 let interval = false;
 let timer = false;
@@ -89,9 +90,7 @@ const amialiveService = async function () {
     interval = setInterval(async () => {
       const modal = document.getElementById("lostServerConnection");
       try {
-        let alive = await fetch("/amialive");
-        if (alive.status !== 200) throw "No Server Connection";
-        alive = await alive.json();
+        let alive = await OctoFarmClient.amIAlive();
 
         if (alive?.update && !alive.isDockerContainer) {
           try {

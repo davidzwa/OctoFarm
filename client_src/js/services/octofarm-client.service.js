@@ -54,6 +54,7 @@ axios.interceptors.response.use(
 // Would go by page, each page could get it's own extends class for pre-defined routes building on the CRUD actions available.
 export default class OctoFarmClient {
   static base = "/api";
+  static amIAliveRoute = this.base + "/amialive";
   static printerRoute = this.base + "/printer";
   static serverSettingsRoute = this.base + "/settings/server";
   static logsRoute = `${this.serverSettingsRoute}/logs`;
@@ -80,6 +81,10 @@ export default class OctoFarmClient {
     }
   }
 
+  static async amIAlive() {
+    return await this.get(`${this.amIAliveRoute}`);
+  }
+
   static async getPrinter(id) {
     if (!id) {
       throw "Cant fetch printer without defined 'id' input";
@@ -100,30 +105,26 @@ export default class OctoFarmClient {
     return this.post(`${this.printerRoute}/create`, newPrinter);
   }
 
-  static async refreshPrinterSettings(id) {
-    return this.get(`${this.printerRoute}/${id ? id : ""}`);
-  }
-
   static async updatePrinterConnectionSettings(settings) {
     this.validateRequiredProps(settings.printer, ["apiKey", "printerURL", "webSocketURL"]);
 
-    return this.post(`${this.printerRoute}/update`, settings);
+    return this.patch(`${this.printerRoute}/update`, settings);
   }
 
   static async updateSortIndex(idList) {
-    return this.post(`${this.printerRoute}/updateSortIndex`, { sortList: idList });
+    return this.patch(`${this.printerRoute}/updateSortIndex`, { sortList: idList });
   }
 
   static async setStepSize(printerId, stepSize) {
-    return this.put(`${this.printerRoute}/${printerId}/step-size`, { stepSize });
+    return this.patch(`${this.printerRoute}/${printerId}/step-size`, { stepSize });
   }
 
   static async setFlowRate(printerId, flowRate) {
-    return this.put(`${this.printerRoute}/${printerId}/flow-rate`, { flowRate });
+    return this.patch(`${this.printerRoute}/${printerId}/flow-rate`, { flowRate });
   }
 
   static async setFeedRate(printerId, feedRate) {
-    return this.put(`${this.printerRoute}/${printerId}/feed-rate`, { feedRate });
+    return this.patch(`${this.printerRoute}/${printerId}/feed-rate`, { feedRate });
   }
 
   static async deletePrinter(printerId) {
@@ -131,7 +132,11 @@ export default class OctoFarmClient {
   }
 
   static async resetPowerSettings(printerId) {
-    return this.put(`${this.printerRoute}/${printerId}/reset-power-settings`);
+    return this.patch(`${this.printerRoute}/${printerId}/reset-power-settings`);
+  }
+
+  static async reconnectOctoPrintCommand(id) {
+    return this.put(`${this.printerRoute}/${id}/reconnect`);
   }
 
   static async reconnectFarmCommand() {
@@ -139,8 +144,8 @@ export default class OctoFarmClient {
     // return this.postApi(`${this.printerRoute}/reconnectOctoPrint/`);
   }
 
-  static async reconnectOctoPrintCommand(id) {
-    return this.post(`${this.printerRoute}/reconnectOctoPrint/${id}`);
+  static async refreshPrinterSettings(id) {
+    return this.get(`${this.printerRoute}/${id ? id : ""}`);
   }
 
   static async generateLogDump() {

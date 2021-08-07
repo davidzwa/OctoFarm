@@ -49,14 +49,14 @@ class AutoDiscoveryService {
       const presentationURL = device.presentationURL[0];
 
       if (friendlyName?.includes("OctoPrint")) {
-        let url = presentationURL[0].substring(0, url.length - 1);
+        let url = presentationURL.substring(0, presentationURL.length - 1);
 
         let name = "Not Named";
-        if (!name.includes("on")) {
+        if (!friendlyName.includes("on")) {
           name = friendlyName.match(/(?:"[^"]*"|^[^"]*$)/)[0].replace(/"/g, "");
         }
 
-        this.#logger.info("Captured device", res.location);
+        this.#logger.info("Captured device", device.location);
         this.#discoveredDevices.push({
           name: name,
           url: url

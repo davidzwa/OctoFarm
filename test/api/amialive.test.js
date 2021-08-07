@@ -13,7 +13,7 @@ jest.mock("../../server_src/services/github-client.service");
 require("../../server_src/services/octofarm-update.service");
 const DITokens = require("../../server_src/container.tokens");
 
-const testRoute = "/amialive";
+const testRoute = "/api/amialive";
 
 beforeAll(async () => {
   await dbHandler.connect();

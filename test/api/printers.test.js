@@ -10,11 +10,11 @@ const Printer = require("../../server_src/models/Printer");
 let request;
 
 const printerRoute = AppConstants.apiRoute + "/printer";
-const getRoute = printerRoute + "/";
+const getRoute = printerRoute;
 const deleteRoute = printerRoute;
-const createRoute = printerRoute + "/create";
+const createRoute = printerRoute;
 const refreshSettingsRoute = printerRoute + "/refreshSettings";
-const updateRoute = printerRoute + "/update";
+const updateRoute = printerRoute;
 
 beforeAll(async () => {
   await dbHandler.connect();
@@ -54,7 +54,7 @@ describe("PrintersController", () => {
 
   // TODO this API endpoint is doing unexpected stuff, should throw not-found error and not result in 'printersAdded' prop as this is misleading
   it(`should not be able to POST ${updateRoute} - missing printer field`, async () => {
-    const response = await request.post(updateRoute).send();
+    const response = await request.patch(`${updateRoute}/asd/connection`).send({});
 
     expectInvalidResponse(response, ["printer"], false);
   });

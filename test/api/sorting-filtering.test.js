@@ -13,7 +13,7 @@ const { setupTestApp } = require("../../server_src/app-test");
 let request;
 let container;
 
-const routeBase = "/client";
+const routeBase = "/api/client";
 const updateFilterGetRoute = routeBase + "/updateFilter/filterstring";
 
 beforeAll(async () => {
@@ -25,12 +25,12 @@ beforeAll(async () => {
   expect(endpoints).toContainEqual({
     methods: ["GET"],
     middleware: ["anonymous", "memberInvoker"],
-    path: "/client/updateFilter/:filter"
+    path: `${routeBase}/updateFilter/:filter`
   });
   expect(endpoints).toContainEqual({
     methods: ["GET"],
     middleware: ["anonymous", "memberInvoker"],
-    path: "/client/updateSorting/:sorting"
+    path: `${routeBase}/updateSorting/:sorting`
   });
   request = supertest(server);
 });
