@@ -17,14 +17,22 @@ class PrinterController {
   #printersStore;
   #jobsCache;
   #connectionLogsCache;
+  #octoPrintClient;
   #fileCache;
 
   #logger = new Logger("OctoFarm-API");
 
-  constructor({ printersStore, connectionLogsCache, jobsCache, fileCache }) {
+  constructor({
+    printersStore,
+    connectionLogsCache,
+    octoPrintApiClientService,
+    jobsCache,
+    fileCache
+  }) {
     this.#printersStore = printersStore;
     this.#jobsCache = jobsCache;
     this.#connectionLogsCache = connectionLogsCache;
+    this.#octoPrintClient = octoPrintApiClientService;
     this.#fileCache = fileCache;
   }
 
@@ -139,6 +147,27 @@ class PrinterController {
     res.send({ powerSettings: defaultPowerSettings });
   }
 
+  /**
+   * WIP quite slow (100ms+) - compatible to /updatePrinterSettings
+   * @param req
+   * @param res
+   * @returns {Promise<void>}
+   */
+  async querySettings(req, res) {
+    const params = await validateInput(req.params, idRules);
+
+    const printerState = this.#printersStore.getPrinterState(params.id);
+    const printerLogin = printerState.getLoginDetails();
+
+    // TODO We dont process these yet
+    const octoPrintConnection = await this.#octoPrintClient.getConnection(printerLogin);
+    const octoPrintSettings = await this.#octoPrintClient.getSettings(printerLogin);
+    const octoPrintSystemInfo = await this.#octoPrintClient.getSystemInfo(printerLogin);
+    // await Runner.getLatestOctoPrintSettingsValues(id);
+
+    res.send({ printerInformation: printerState.toFlat() });
+  }
+
   // TODO === The big todo line ===
   async updateSettings(req, res) {
     const settings = req.body;
@@ -146,25 +175,6 @@ class PrinterController {
     this.#logger.info("Update printers request: ", settings);
     const updateSettings = await Runner.updateSettings(settings);
     res.send({ status: updateSettings.status, printer: updateSettings.printer });
-  }
-
-  async refreshSettings(req, res) {
-    const id = req.body.i;
-    if (!id) {
-      this.#logger.error("Printer Settings: No ID key was provided");
-      res.statusMessage = "No ID key was provided";
-      res.sendStatus(400);
-      return;
-    }
-    try {
-      await Runner.getLatestOctoPrintSettingsValues(id);
-      let printerInformation = PrinterClean.getPrintersInformationById(id);
-      res.send(printerInformation);
-    } catch (e) {
-      this.#logger.error(`The server couldn't update your printer settings! ${e}`);
-      res.statusMessage = `The server couldn't update your printer settings! ${e}`;
-      res.sendStatus(500);
-    }
   }
 
   async connectionLogs(req, res) {
@@ -204,9 +214,9 @@ module.exports = createController(PrinterController)
   .patch("/:id/feed-rate", "setFeedRate")
   .patch("/:id/reset-power-settings", "resetPowerSettings")
   // WIP line
+  .put("/:id/query-settings", "querySettings")
   // TODO line
   .post("/updateSettings", "updateSettings")
-  .post("/refreshSettings", "refreshSettings")
   .get("/connectionLogs/:id", "connectionLogs")
   .get("/pluginList/:id", "pluginList")
 ;
