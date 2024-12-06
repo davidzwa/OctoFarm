@@ -1,43 +1,7 @@
 {
   "name": "octofarm-maintenance",
-  "version": "1.7.3",
+  "version": "1.7.4",
   "main": "server/app.js",
   "author": "James Mackay (NotExpectedYet)",
-  "description": "OctoFarm maintenance version",
-  "scripts": {
-    "start": "cd server && npm run start",
-    "restart": "pm2 restart OctoFarm",
-    "pupdate": "pm2 update",
-    "stop": "pm2 stop OctoFarm",
-    "stop:delete": "pm2 delete OctoFarm",
-    "prettier": "prettier --write \"./server/**/*.js\" \"./client/**/*.js\"",
-    "install-server": "cd server && npm ci",
-    "install-client": "cd client && npm ci",
-    "dev-server": "cd server && pnpm run dev",
-    "dev-client": "cd client && pnpm run dev",
-    "build-client": "cd client && npm install && npm run build",
-    "setup-dev": "npm run install-server && npm run install-client",
-    "update-octofarm": "git pull && npm run install-server && pm2 restart OctoFarm",
-    "bump": "npm version $VERSION --no-git-tag-version --allow-same-version && cd ./server && npm version $VERSION --no-git-tag-version --allow-same-version && cd ../client && npm version $VERSION --no-git-tag-version --allow-same-version",
-    "build": "cd client && npm install && npm run build"
-  },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/OctoFarm/OctoFarm"
-  },
-  "license": "ISC",
-  "devDependencies": {
-    "@commitlint/cli": "^16.2.4",
-    "@commitlint/config-conventional": "^16.2.4",
-    "eslint": "^8.17.0",
-    "eslint-config-airbnb-base": "^15.0.0",
-    "eslint-config-prettier": "^8.5.0",
-    "eslint-plugin-ejs-js": "^0.1.0",
-    "eslint-plugin-import": "^2.22.1",
-    "eslint-plugin-prettier": "^4.0.0",
-    "husky": "^8.0.0",
-    "prettier": "^2.6.0",
-    "nodemon": "^2.0.20",
-    "release-it": "^15.2.0"
-  }
+  "description": "OctoFarm maintenance version"
 }

@@ -1,4 +1,3 @@
-[comment]: <> ([![Latest Release]&#40;https://img.shields.io/github/release/octofarm/octofarm?style=appveyor&#41;]&#40;https://img.shields.io/github/v/tag/octofarm/octofarm?sort=date&#41;)
 ![Docker Pulls](https://img.shields.io/docker/pulls/octofarm/octofarm?style=appveyor)
 [![GitHub stars](https://img.shields.io/github/stars/octofarm/octofarm?style=appveyor)](https://github.com/NotExpectedYet/OctoFarm/stargazers)
 [![GitHub forks](https://img.shields.io/github/forks/octofarm/octofarm?style=appveyor)](https://github.com/NotExpectedYet/OctoFarm/network)
@@ -8,7 +7,11 @@
 [![Maintenance](https://img.shields.io/badge/Maintained%3F-yes-green.svg?style=appveyor)](https://GitHub.com/octofarm/octofarm/graphs/commit-activity)
 [![Download Dockerhub](https://img.shields.io/badge/DOCKERHUB-OCTOFARM-<COLOR>.svg?style=appveyor)](https://hub.docker.com/r/octofarm/octofarm)
 
-# OctoFarm [![Latest Release](https://img.shields.io/github/release/octofarm/octofarm)](https://img.shields.io/github/v/tag/octofarm/octofarm?sort=date)
+# OctoFarm - MAINTENANCE EDITION
+
+OctoFarm has not been maintained for more than 3 years. Lets change that.
+
+[![Latest Release](https://img.shields.io/github/release/octofarm/octofarm)](https://img.shields.io/github/v/tag/octofarm/octofarm?sort=date)
 
 <div align="center">
   <a href="https://github.com/NotExpectedYet/OctoFarm">
@@ -77,15 +80,17 @@ Before installing, it is best to read the getting started documents here:
 [Getting Started](https://docs.octofarm.net/getting-started/)
 
 ## Installation Production
+
 Check out the OctoFarm documentation website for installation instructions on various platforms
 [Getting Started](https://docs.octofarm.net/installation/)
 
 ## Installation Development
+
 ### Requirements
+
 - Git
 - NodeJS > v14
 - npm
-
 
 1. Clone the OctoFarm
 
@@ -107,6 +112,7 @@ npm run setup-dev
 
 4. Create an `.env` file in the OctoFarm folder's root directory. e.g. `OctoFarm/.env`.
    Paste in the contents below.
+
 ```dotenv
 NODE_ENV=development
 MONGO=mongodb://127.0.0.1:27017/octofarm
@@ -114,11 +120,13 @@ OCTOFARM_PORT=4000
 ```
 
 5. Build the latest client
+
 ```sh
 npm run build-client
 ```
 
 6. (Optional): Watch for client changes, requires a secondary console.
+
 ```sh
 npm run dev-client
 ```
@@ -128,17 +136,18 @@ npm run dev-client
 ```sh
 npm run server-dev
 ```
+
 - The developer version uses nodemon for live server reloading on changes. It will output all the logs to the console.
 
 ## Contributing
 
-I don't mind taking contributions to the code. Just be warned OctoFarm is an ever evolving environment due to how it was originally a learning project for myself and JavaScript. 
+I don't mind taking contributions to the code. Just be warned OctoFarm is an ever evolving environment due to how it was originally a learning project for myself and JavaScript.
 
-It's a great repository if anyone would like to practice their code clean-up and refactoring skills. 
+It's a great repository if anyone would like to practice their code clean-up and refactoring skills.
 
-Currently I'm planning to fix this with V2.0 but that is held on a private repository. 
+Currently I'm planning to fix this with V2.0 but that is held on a private repository.
 
-If you'd like to contribute something, then please take a look at the open project on this repository, or feel free to open a discussion with your plans. 
+If you'd like to contribute something, then please take a look at the open project on this repository, or feel free to open a discussion with your plans.
 
 ## License
 

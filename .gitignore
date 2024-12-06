@@ -13,6 +13,9 @@
 # Ignore any local release zips
 octofarm.zip
 
+server/assets/*
+client/dist/*
+
 *.tgz
 pnpm-lock.yaml
 /client/assets/js
