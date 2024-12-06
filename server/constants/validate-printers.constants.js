@@ -2,7 +2,7 @@ const { getPrinterStoreCache } = require("../cache/printer-store.cache");
 
 const MIN_LENGTH_0 = "minLength:0";
 const MAX_PRINTER_ARRAY = `maxLength:${getPrinterStoreCache().getPrinterCount() + 100}`; //Leave some headroom incase printers are been added when action occurs
-const API_MAX_LENGTH = "maxLength:32";
+const API_MAX_LENGTH = "maxLength:43";
 const API_MIN_LENGTH = "minLength:32";
 const STRING_MAX_LENGTH = "maxLength:50";
 
