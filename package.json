@@ -1,6 +1,6 @@
 {
   "name": "octofarm-maintenance",
-  "version": "1.7.4",
+  "version": "1.8.0-beta.11",
   "main": "server/app.js",
   "author": "James Mackay (NotExpectedYet)",
   "description": "OctoFarm maintenance version"

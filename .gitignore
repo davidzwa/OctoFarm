@@ -11,7 +11,7 @@
 /images
 
 # Ignore any local release zips
-octofarm.zip
+*.zip
 
 server/assets/*
 client/dist/*
@@ -21,4 +21,4 @@ pnpm-lock.yaml
 /client/assets/js
 /client/assets/css
 /client/build/*
-
+/temp/*
