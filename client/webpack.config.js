@@ -18,7 +18,7 @@ const packageJsonPath = path.join(__dirname, '../package.json');
 const packageJsonVersion = require(packageJsonPath).version;
 
 // Target
-const buildDirProd = '../server/assets/';
+const buildDirProd = './dist/';
 const buildDirDev = basePath + 'assets/';
 
 const webpackEntries = fromPairs(
@@ -36,6 +36,7 @@ const webpackEntries = fromPairs(
 
 webpackEntries['vendor'] = `./js/vendor/entry.js`;
 webpackEntries['bootstrap'] = 'bootstrap/dist/js/bootstrap.bundle';
+
 
 module.exports = (env, options) => {
   const isProd = options.mode === 'production';

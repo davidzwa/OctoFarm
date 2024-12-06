@@ -1,8 +1,8 @@
 {
-  "name": "octofarm-server",
-  "version": "1.7.3",
+  "name": "octofarm-server-maintenance",
+  "version": "1.7.4",
   "main": "app.js",
-  "description": "OctoFarm is a easy to setup and install web interface that unifies your Octoprint instances for easy monitoring of all your printers. OctoFarm allows you to connect to multiple octoprint instances on your network allowing creating a farm management system. You can control, manage, upload files to any of your instances without ever leaving the tab it's open in.",
+  "description": "OctoFarm server maintenance edition.",
   "scripts": {
     "prestart": "npm ci",
     "start": "pm2 flush && pm2 start ecosystem.config.js",
@@ -15,7 +15,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/OctoFarm/OctoFarm"
+    "url": "https://github.com/davidzwa/OctoFarm"
   },
   "keywords": [
     "octofarm",
@@ -99,5 +99,6 @@
   "devDependencies": {
     "nodemon": "^2.0.20",
     "release-it": "^15.0.0"
-  }
+  },
+  "packageManager": "yarn@1.22.22+sha512.a6b2f7906b721bba3d67d4aff083df04dad64c399707841b7acf00f6b133b7ac24255f2652fa22ae3534329dc6180534e98d17432037ff6fd140556e2bb3137e"
 }

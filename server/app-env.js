@@ -16,10 +16,9 @@ const logger = new Logger(LOGGER_ROUTE_KEYS.SERVER_ENVIRONMENT, false);
 const instructionsReferralURL = 'https://docs.octofarm.net/installation/setup-environment.html';
 const deprecatedConfigFolder = '../middleware';
 const deprecatedConfigFilePath = deprecatedConfigFolder + 'db.js';
-const packageJsonPath = path.join(__dirname, '../package.json');
-const packageLockPath = path.join(__dirname, '../package-lock.json');
-const packageLockFile = require(packageLockPath);
+
 let currentClientVersion;
+const packageJsonPath = path.join(__dirname, './package.json');
 const dotEnvPath = path.join(__dirname, '../.env');
 
 /**
@@ -364,6 +363,9 @@ function isEnvProd() {
  * @returns {string} Client version number #.#.#
  */
 function fetchClientVersion() {
+  const packageLockPath = path.join(__dirname, '../yarn.lock');
+  const packageLockFile = require(packageLockPath);
+
   if (!currentClientVersion) {
     currentClientVersion =
       packageLockFile?.dependencies['@notexpectedyet/octofarm-client']?.version || 'unknown';
