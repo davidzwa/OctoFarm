@@ -1,9 +1,9 @@
 {
-  "name": "octofarm",
+  "name": "octofarm-maintenance",
   "version": "1.7.3",
   "main": "server/app.js",
   "author": "James Mackay (NotExpectedYet)",
-  "description": "OctoFarm is a easy to setup and install web interface that unifies your Octoprint instances for easy monitoring of all your printers. OctoFarm allows you to connect to multiple octoprint instances on your network allowing creating a farm management system. You can control, manage, upload files to any of your instances without ever leaving the tab it's open in.",
+  "description": "OctoFarm maintenance version",
   "scripts": {
     "start": "cd server && npm run start",
     "restart": "pm2 restart OctoFarm",
@@ -18,7 +18,6 @@
     "build-client": "cd client && npm install && npm run build",
     "setup-dev": "npm run install-server && npm run install-client",
     "update-octofarm": "git pull && npm run install-server && pm2 restart OctoFarm",
-    "prepare": "husky install",
     "bump": "npm version $VERSION --no-git-tag-version --allow-same-version && cd ./server && npm version $VERSION --no-git-tag-version --allow-same-version && cd ../client && npm version $VERSION --no-git-tag-version --allow-same-version",
     "build": "cd client && npm install && npm run build"
   },
