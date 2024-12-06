@@ -9,7 +9,10 @@
 
 # OctoFarm - MAINTENANCE EDITION
 
-OctoFarm has not been maintained for more than 3 years. Lets change that.
+OctoFarm has not been maintained for more than 3 years. This repository aims to change that.
+
+For a follow-up to OctoFarm, please check FDM Monster! https://github.com/fdm-monster/fdm-monster
+
 
 [![Latest Release](https://img.shields.io/github/release/octofarm/octofarm)](https://img.shields.io/github/v/tag/octofarm/octofarm?sort=date)
 
