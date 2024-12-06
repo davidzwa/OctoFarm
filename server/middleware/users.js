@@ -24,8 +24,8 @@ module.exports = {
         req.user.clientSettings = clientSettings;
       }
     }
-    res.locals.currentUser = req.user.name;
-    res.locals.currentPermissionGroup = req.user.group;
+    res.locals.currentUser = req.user?.name;
+    res.locals.currentPermissionGroup = req.user?.group;
     next();
   }
 };
